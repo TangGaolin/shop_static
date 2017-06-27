@@ -3,6 +3,11 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import iView from 'iview'
+import '../mytheme/index.less'
+import './components'
+
+Vue.use(iView)
 
 Vue.config.productionTip = false
 
