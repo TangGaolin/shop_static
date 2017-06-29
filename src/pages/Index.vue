@@ -51,19 +51,26 @@
     .layout-content a{
         color: #657180;
     }
-    .search-area {
-        margin-top: 55px;
-        border-right: 1px solid #cccccc;
+    .user-area {
+        padding: 15px;
         width: auto;
         height: 100%;
-    }
-    .search-input {
-        width: 180px;
+        border-right: 1px solid #ccc;
     }
 
     .function-button {
         margin-top: 20px;
-        text-align: center;
+        text-align: right;
+    }
+    .function-button button{
+        margin-right: 10px;
+    }
+    .user-detail-area {
+        width: auto;
+        padding-top: 20px;
+        margin-left: 55px;
+        margin-right: 55px;
+        font-size: 14px;
     }
 
 </style>
@@ -79,23 +86,79 @@
 
         <div class="layout-body">
             <div class="layout-content">
-                <div class="search-area">
-                    <UserSearch></UserSearch>
-                </div>
+                <Row>
+                    <Col span="5">
+                        <div class="user-area">
+                            <UserSearch></UserSearch>
+
+                            <br/>
+                            <Collapse >
+                                <Panel name="1">
+                                    预约顾客
+                                    <ul slot="content">
+
+                                    </ul>
+                                </Panel>
+                                <Panel name="2">
+                                    生日提醒
+                                    <p slot="content">
+
+                                    </p>
+                                </Panel>
+                                <Panel name="3">
+                                    今日顾客
+                                    <p slot="content">
+
+                                    </p>
+                                </Panel>
+                            </Collapse>
+                        </div>
+
+                    </Col>
+                    <Col span="19">
+
+                        <div class = "function-button">
+                            <Button type="ghost" icon="ios-personadd-outline" size="large">新建会员</Button>
+                            <Button type="ghost" size="large">交班统计</Button>
+                            <Button type="ghost" size="large">单据撤销</Button>
+                        </div>
 
 
+                        <div class = "user-detail-area">
+                            <div>
+                                <h1>
+                                    <Icon type="person"></Icon>
+                                    {{currentUserData.user_name}}
+                                </h1>
+                                <br>
+                                <UserInfo :currentUserData = currentUserData></UserInfo>
+                            </div>
+                            <br/>
+                            <div>
+                                <Button type="ghost">充值</Button>
+                                <Button type="ghost">购买服务</Button>
+                                <Button type="ghost">购买产品</Button>
+                                <Button type="ghost">还款</Button>
+                            </div>
 
-                <div class = "function-button">
-                    <Button type="ghost" icon="ios-personadd-outline" size="large">新建会员</Button>
-                    <Button type="ghost" size="large">成功按钮</Button>
-                    <Button type="ghost" size="large">警告按钮</Button>
-                    <Button type="ghost" size="large">错误按钮</Button>
-                </div>
+                            <Tabs value="items">
+                                <Tab-pane label="卡项服务" name="items">
 
+                                </Tab-pane>
+                                <Tab-pane label="购买记录" name="buys">
 
+                                </Tab-pane>
+                                <Tab-pane label="消耗记录" name="userd">
+
+                                </Tab-pane>
+                                <Tab-pane label="沟通记录" name="record">
+
+                                </Tab-pane>
+                            </Tabs>
+                        </div>
+                    </Col>
+                </Row>
             </div>
-
-
         </div>
 
         <div class="layout-copy">
@@ -109,7 +172,16 @@
     export default {
         data() {
             return {
-                currentMenu: ""
+                currentUserData: {
+                    user_name: "白小姐",
+                    phone_no: "13247719350",
+                    birthday: "1992-06-13",
+                    emp_name: "唐小丽",
+                    balance: 2900,
+                    point: 1000,
+                    debt: 0,
+                    remark: "喜欢安静"
+                }
             }
         },
 //        filters: {

@@ -1,20 +1,18 @@
 <style>
     .user-search {
-        width: 400px;
         margin: 0px auto;
-        position: relative;
+        position: relative
     }
     .search-input{
-        width: 400px;
+
     }
     .search-res {
         box-sizing: border-box;
         z-index: 999;
-        width: 400px;
         position: absolute;
         background: #fff;
+        width: 100%
     }
-
     .search-res ul{
         margin-top: 2px;
         border-radius: 3px;
@@ -22,20 +20,20 @@
     }
 
     .search-res li {
-        line-height: 32px;
+        line-height: 28px;
         vertical-align: middle;
-        font-size: 16px;
+        font-size: 14px;
         padding-left: 15px;
-        width: 100%
+
     }
 </style>
 <template>
     <div class="user-search">
-        <Input v-model="value4"  placeholder="姓名/手机号..." size="large" icon="ios-search"  class = "search-input" style="border-radius: 0px"></Input>
-        <div class="search-res">
+        <Input v-model="user_name_phone"  placeholder="会员姓名/手机号..."  icon="ios-search"  class = "search-input" style="border-radius: 0px"></Input>
+        <div class="search-res" v-show="false">
             <ul>
-                <li v-for="item  in searchRes" @click="chooseUser(item.uid)">
-                    {{item.user_name}} &nbsp;&nbsp; {{item.phone_no}} &nbsp;&nbsp;
+                <li v-for="item in searchRes" @click="chooseUser(item.uid)">
+                    {{item.user_name}} &nbsp; {{item.phone_no}} &nbsp;
                 </li>
             </ul>
         </div>
@@ -49,19 +47,20 @@
         },
         data () {
             return {
+                user_name_phone: "",
                 searchRes: [
-//                   {
-//                        uid:1234,
-//                        user_name:"张晓",
-//                        phone_no:"13247719350",
-//                        emp_name:"小红"
-//                   },
-//                   {
-//                        uid:1235,
-//                        user_name:"小丽",
-//                        phone_no:"13247719351",
-//                        emp_name:"小白"
-//                   }
+                   {
+                        uid:1234,
+                        user_name:"张晓",
+                        phone_no:"13247719350",
+                        emp_name:"小红"
+                   },
+                   {
+                        uid:1235,
+                        user_name:"小丽",
+                        phone_no:"13247719351",
+                        emp_name:"小白"
+                   }
                 ],
             }
         },
