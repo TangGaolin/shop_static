@@ -52,7 +52,7 @@
 </template>
 
 <script>
-//import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
     data() {
@@ -82,19 +82,19 @@ export default {
         },
         methods: {
             handleSubmit(name) {
-//                this.$refs[name].validate((valid) => {
-//                    if (valid) {
-//                        this.$store.dispatch('loginAction', {
-//                            user: this.formInline.user,
-//                            password: this.formInline.password
-//                        }).then(() => {
-//                          // 登录成功
-//                          this.$router.push('/')
-//                        })
-//                    } else {
-//                        this.$Message.error('表单验证错误!')
-//                    }
-//                })
+                this.$refs[name].validate((valid) => {
+                    if (valid) {
+                        this.$store.dispatch('loginAction', {
+                            user: this.formInline.user,
+                            password: this.formInline.password
+                        }).then(() => {
+                          // 登录成功
+                          this.$router.push('/')
+                        })
+                    } else {
+                        this.$Message.error('表单验证错误!')
+                    }
+                })
             }
         }
 }

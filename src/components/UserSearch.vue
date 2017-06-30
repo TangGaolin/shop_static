@@ -24,7 +24,6 @@
         vertical-align: middle;
         font-size: 14px;
         padding-left: 15px;
-
     }
 </style>
 <template>
@@ -65,23 +64,7 @@
             }
         },
         methods: {
-            handleSuccess (res, file) {
-                // 因为上传过程为实例，这里模拟添加 url
-                this.$Message.success("导入成功！")
-                this.importEmployee = false
-            },
-            handleFormatError (file) {
-                this.$Notice.warning({
-                    title: '文件格式不正确',
-                    desc: '文件 ' + file.name + ' 格式不正确，请上传 jpg 或 png 格式的图片。'
-                });
-            },
-            handleMaxSize (file) {
-                this.$Notice.warning({
-                    title: '超出文件大小限制',
-                    desc: '文件 ' + file.name + ' 太大，不能超过 2M。'
-                });
-            },
+
             chooseUser (uid) {
 
             }

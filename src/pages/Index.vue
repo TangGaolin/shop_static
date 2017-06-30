@@ -79,7 +79,7 @@
         <div class="layout-header">
             <div class="layout-logo">德美店务收银系统</div>
             <div class='layout-account'  v-if="userInfo !== null">
-                 春意浓 * 杨梦瑶 |
+                 {{userInfo.shop_name}} * {{userInfo.emp_name}} |
                  <a href="javascript:void(0);" v-on:click="logout">退出</a>
             </div>
         </div>
@@ -148,7 +148,7 @@
                                 <Tab-pane label="购买记录" name="buys">
 
                                 </Tab-pane>
-                                <Tab-pane label="消耗记录" name="userd">
+                                <Tab-pane label="耗卡记录" name="userd">
 
                                 </Tab-pane>
                                 <Tab-pane label="沟通记录" name="record">
@@ -168,7 +168,7 @@
 </template>
 
 <script>
-//    import { mapGetters } from 'vuex'
+    import { mapGetters } from 'vuex'
     export default {
         data() {
             return {
@@ -190,26 +190,22 @@
 //                return "/" + routes[1] + "/" + routes[2]
 //            }
 //        },
-//        computed: {
-//            ...mapGetters([
-//              'userInfo',
-//              'userRulesNode'
-//            ])
-//        },
+        computed: {
+            ...mapGetters([
+              'userInfo'
+            ])
+        },
 //        created() {
 //            this.fetchData()
 //            this.currentMenu = "/" + this.$route.path.split("/")[1]
 //        },
         methods: {
-            fetchData() {
-                console.log(this.userRulesNode);
-            },
             logout() {
                 console.log('xxxx')
-//                this.$store.dispatch('logoutAction',{}).then(() => {
-//                    // 退出成功
-//                    this.$router.push('/login')
-//                })
+                this.$store.dispatch('logoutAction',{}).then(() => {
+                    // 退出成功
+                    this.$router.push('/login')
+                })
             }
         }
     }

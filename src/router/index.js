@@ -1,14 +1,15 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Hello from '@/components/Hello'
 
+
+import store from '../store'
 
 const Login = resolve       => require(['../pages/Login'], resolve)
 const Index = resolve       => require(['../pages/Index'], resolve)
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
     routes: [
         {
             path: '/login',
@@ -22,3 +23,26 @@ export default new Router({
         }
   ]
 })
+
+
+router.beforeEach((to, from, next) => {
+    var account = store.state.account
+    console.log(store.state.account)
+
+    if(to.path === '/login') {
+        return next()
+    }
+
+    if (typeof(account.userInfo) === "undefined") {
+        return next(`/login?redirect=${encodeURIComponent(to.path)}`)
+    }else {
+        return next()
+    }
+
+})
+
+router.afterEach(transition => {
+
+});
+
+export default router
