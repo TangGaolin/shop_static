@@ -4,8 +4,7 @@ import router from '../../router'
 
 const state = {
     userInfo: Cookies.getJSON('cashierinfo'),
-    userRulesNode: router.options.routes,
-    globalConfig: ""
+    userRulesNode: router.options.routes
 }
 const mutations = {
     [types.SET_ACCOUNT] (state, account) {

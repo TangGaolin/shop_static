@@ -1,5 +1,5 @@
 import * as types from './types'
-import { login,logout,getConfig } from '../api/login'
+import { login,logout,getConfig } from '../api/api'
 import {LoadingBar, Message} from 'iview'
 
 export const loginAction = ({commit}, params) => {

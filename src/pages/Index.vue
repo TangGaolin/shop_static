@@ -90,7 +90,6 @@
                     <Col span="5">
                         <div class="user-area">
                             <UserSearch></UserSearch>
-
                             <br/>
                             <Collapse >
                                 <Panel name="1">
@@ -118,44 +117,48 @@
                     <Col span="19">
 
                         <div class = "function-button">
-                            <Button type="ghost" icon="ios-personadd-outline" size="large">新建会员</Button>
+                            <AddUser :empData = empData
+                                     :shopConfig = userInfo
+                                     v-on:addUser = "addUser"
+                            ></AddUser>
                             <Button type="ghost" size="large">交班统计</Button>
                             <Button type="ghost" size="large">单据撤销</Button>
                         </div>
 
+                        <transition name="slide-fade">
+                            <div class = "user-detail-area" v-if = "currentUserData">
+                                <div>
+                                    <h1>
+                                        <Icon type="person"></Icon>
+                                        {{currentUserData.user_name}}
+                                    </h1>
+                                    <br>
+                                    <UserInfo :currentUserData = currentUserData></UserInfo>
+                                </div>
+                                <br/>
+                                <div>
+                                    <Button type="ghost">充值</Button>
+                                    <Button type="ghost">购买服务</Button>
+                                    <Button type="ghost">购买产品</Button>
+                                    <Button type="ghost">还款</Button>
+                                </div>
 
-                        <div class = "user-detail-area">
-                            <div>
-                                <h1>
-                                    <Icon type="person"></Icon>
-                                    {{currentUserData.user_name}}
-                                </h1>
-                                <br>
-                                <UserInfo :currentUserData = currentUserData></UserInfo>
+                                <Tabs value="items">
+                                    <Tab-pane label="卡项服务" name="items">
+
+                                    </Tab-pane>
+                                    <Tab-pane label="购买记录" name="buys">
+
+                                    </Tab-pane>
+                                    <Tab-pane label="耗卡记录" name="userd">
+
+                                    </Tab-pane>
+                                    <Tab-pane label="沟通记录" name="record">
+
+                                    </Tab-pane>
+                                </Tabs>
                             </div>
-                            <br/>
-                            <div>
-                                <Button type="ghost">充值</Button>
-                                <Button type="ghost">购买服务</Button>
-                                <Button type="ghost">购买产品</Button>
-                                <Button type="ghost">还款</Button>
-                            </div>
-
-                            <Tabs value="items">
-                                <Tab-pane label="卡项服务" name="items">
-
-                                </Tab-pane>
-                                <Tab-pane label="购买记录" name="buys">
-
-                                </Tab-pane>
-                                <Tab-pane label="耗卡记录" name="userd">
-
-                                </Tab-pane>
-                                <Tab-pane label="沟通记录" name="record">
-
-                                </Tab-pane>
-                            </Tabs>
-                        </div>
+                        </transition>
                     </Col>
                 </Row>
             </div>
@@ -169,20 +172,20 @@
 
 <script>
     import { mapGetters } from 'vuex'
+    import { getEmployeeList, getUserDetail } from '../api/api'
     export default {
+
         data() {
             return {
-                currentUserData: {
-                    user_name: "白小姐",
-                    phone_no: "13247719350",
-                    birthday: "1992-06-13",
-                    emp_name: "唐小丽",
-                    balance: 2900,
-                    point: 1000,
-                    debt: 0,
-                    remark: "喜欢安静"
-                }
+                currentUserData: false,
+                empData: [],
+                empTotal:0
             }
+        },
+        computed: {
+            ...mapGetters([
+                'userInfo',
+            ])
         },
 //        filters: {
 //            activeName: function(name){
@@ -190,15 +193,10 @@
 //                return "/" + routes[1] + "/" + routes[2]
 //            }
 //        },
-        computed: {
-            ...mapGetters([
-              'userInfo'
-            ])
+        created() {
+//            this.newUserData.shop_id = this.userInfo.shop_id
+            this.getEmployeeList()
         },
-//        created() {
-//            this.fetchData()
-//            this.currentMenu = "/" + this.$route.path.split("/")[1]
-//        },
         methods: {
             logout() {
                 console.log('xxxx')
@@ -206,6 +204,52 @@
                     // 退出成功
                     this.$router.push('/login')
                 })
+            },
+            getCurrentTime() {
+                var date = new Date()
+                var month = date.getMonth() + 1
+                var strDate = date.getDate()
+                if (month >= 1 && month <= 9) {
+                    month = "0" + month;
+                }
+                if (strDate >= 0 && strDate <= 9) {
+                    strDate = "0" + strDate;
+                }
+                return date.getFullYear() + '-' + month + '-' + strDate
+                    + " " + date.getHours() + ":" + date.getMinutes()
+                    + ":" + date.getSeconds()
+            },
+            getEmployeeList() {
+                getEmployeeList({
+                        is_server: 1,
+                        shop_id: this.userInfo.shop_id
+                    }).then((response) => {
+                    if(0 !== response.statusCode) {
+                        this.$Message.error(response.msg)
+                    }else{
+                        this.empData = response.data.data
+                        this.empTotal = response.data.totalSize
+                    }
+                }).catch((error) => {
+                    console.log(error)
+                })
+            },
+
+
+            //加载用户信息
+            loadUserDetail(userInfo) {
+                getUserDetail(userInfo).then((response) => {
+                    if(0 !== response.statusCode) {
+                        this.$Message.error(response.msg)
+                    }else{
+                        this.currentUserData = response.data
+                    }
+                }).catch((error) => {
+                    console.log(error)
+                })
+            },
+            addUser(userData) {
+                this.loadUserDetail(userData);
             }
         }
     }

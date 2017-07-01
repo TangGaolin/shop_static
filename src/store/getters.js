@@ -1,6 +1,4 @@
 const getters = {
-    userInfo: state => state.account.userInfo,
-    userRulesNode: state => state.account.userRulesNode,
-    globalConfig: state => state.account.globalConfig,
+    userInfo: state => state.account.userInfo
 }
 export default getters
