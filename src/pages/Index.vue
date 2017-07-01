@@ -89,7 +89,9 @@
                 <Row>
                     <Col span="5">
                         <div class="user-area">
-                            <UserSearch></UserSearch>
+                            <UserSearch :shopConfig = userInfo
+                                        v-on:chooseUser = chooseUser
+                            ></UserSearch>
                             <br/>
                             <Collapse >
                                 <Panel name="1">
@@ -187,14 +189,8 @@
                 'userInfo',
             ])
         },
-//        filters: {
-//            activeName: function(name){
-//                const routes = name.split("/")
-//                return "/" + routes[1] + "/" + routes[2]
-//            }
-//        },
         created() {
-//            this.newUserData.shop_id = this.userInfo.shop_id
+
             this.getEmployeeList()
         },
         methods: {
@@ -204,20 +200,6 @@
                     // 退出成功
                     this.$router.push('/login')
                 })
-            },
-            getCurrentTime() {
-                var date = new Date()
-                var month = date.getMonth() + 1
-                var strDate = date.getDate()
-                if (month >= 1 && month <= 9) {
-                    month = "0" + month;
-                }
-                if (strDate >= 0 && strDate <= 9) {
-                    strDate = "0" + strDate;
-                }
-                return date.getFullYear() + '-' + month + '-' + strDate
-                    + " " + date.getHours() + ":" + date.getMinutes()
-                    + ":" + date.getSeconds()
             },
             getEmployeeList() {
                 getEmployeeList({
@@ -234,8 +216,6 @@
                     console.log(error)
                 })
             },
-
-
             //加载用户信息
             loadUserDetail(userInfo) {
                 getUserDetail(userInfo).then((response) => {
@@ -250,6 +230,9 @@
             },
             addUser(userData) {
                 this.loadUserDetail(userData);
+            },
+            chooseUser(uid) {
+                this.loadUserDetail({uid: uid});
             }
         }
     }

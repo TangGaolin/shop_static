@@ -56,5 +56,13 @@ export function getUserDetail(params) {
     });
 }
 
+export function searchUserList(params) {
+    const data = params
+    return fetch({
+        url:  process.env.API_ROOT + '/shop/searchUserList',
+        method: 'post',
+        data
+    });
+}
 
 
