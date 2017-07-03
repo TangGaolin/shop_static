@@ -114,7 +114,6 @@
                                 </Panel>
                             </Collapse>
                         </div>
-
                     </Col>
                     <Col span="19">
 
@@ -127,19 +126,21 @@
                             <Button type="ghost" size="large">单据撤销</Button>
                         </div>
 
-                        <transition name="slide-fade">
+                        <transition name="fade" mode="out-in">
+                            <DataView v-if = "!currentUserData"></DataView>
                             <div class = "user-detail-area" v-if = "currentUserData">
                                 <div>
                                     <h1>
                                         <Icon type="person"></Icon>
                                         {{currentUserData.user_name}}
+                                        <Tag color="blue">A 类</Tag>
                                     </h1>
                                     <br>
                                     <UserInfo :currentUserData = currentUserData></UserInfo>
                                 </div>
                                 <br/>
                                 <div>
-                                    <Button type="ghost">充值</Button>
+                                    <Recharge :currentUserData = currentUserData></Recharge>
                                     <Button type="ghost">购买服务</Button>
                                     <Button type="ghost">购买产品</Button>
                                     <Button type="ghost">还款</Button>
@@ -195,7 +196,6 @@
         },
         methods: {
             logout() {
-                console.log('xxxx')
                 this.$store.dispatch('logoutAction',{}).then(() => {
                     // 退出成功
                     this.$router.push('/login')

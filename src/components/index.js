@@ -5,6 +5,8 @@ import Vue from 'vue'
 Vue.component('UserSearch', require('./UserSearch.vue'))
 Vue.component('UserInfo', require('./UserInfo.vue'))
 Vue.component('AddUser', require('./AddUser.vue'))
+Vue.component('DataView', require('./DataViews.vue'))
+Vue.component('Recharge', require('./Recharge.vue'))
 
 
 
