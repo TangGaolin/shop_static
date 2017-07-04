@@ -52,11 +52,24 @@
                      </Col>
                 </Row>
                 <p style="color: red;text-align: center">
-                    注: 实收金额 = 现金+银行卡+微信+支付宝 &nbsp;&nbsp; 欠款金额 = 充值金额-实收金额git s
+                    注: 实收金额 = 现金+银行卡+微信+支付宝 &nbsp;&nbsp; 欠款金额 = 充值金额-实收金额
                 </p>
                 <br/>
-
                 <hr/>
+                <br/>
+                <Form-item label="选择销售人" prop="pay_emps">
+                    <Select v-model="rechargeData.pay_emps" multiple style="width:260px">
+                        <Option v-for="item in empData" :value="item.emp_id" :key="item.emp_id">{{ item.emp_name }}</Option>
+                    </Select>
+                </Form-item>
+
+                <ul>
+                    <li v-for="item in  rechargeData.pay_emps">
+                        <Form-item :label="item" prop="user_name">
+                            <Input v-model="payMoney" disabled></Input>
+                        </Form-item>
+                    </li>
+                </ul>
 
                 <br/>
 
@@ -80,7 +93,8 @@
         props: {
 //            globalConfig: Object,
 //            empData: Array,
-            currentUserData: Object
+            currentUserData: Object,
+            empData: Array
         },
         data () {
             return {
@@ -92,7 +106,8 @@
                     pay_cash: 0,
                     pay_card: 0,
                     pay_weixin: 0,
-                    pay_zhifubao: 0
+                    pay_zhifubao: 0,
+                    pay_emps:[]
                 },
                 payMoney: 0,
                 debt: 0,

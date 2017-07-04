@@ -140,7 +140,8 @@
                                 </div>
                                 <br/>
                                 <div>
-                                    <Recharge :currentUserData = currentUserData></Recharge>
+                                    <Recharge :currentUserData = currentUserData
+                                    :empData = empData></Recharge>
                                     <Button type="ghost">购买服务</Button>
                                     <Button type="ghost">购买产品</Button>
                                     <Button type="ghost">还款</Button>
@@ -191,7 +192,6 @@
             ])
         },
         created() {
-
             this.getEmployeeList()
         },
         methods: {
