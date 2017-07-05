@@ -6,7 +6,7 @@
                 <Icon type="cash" size="18"></Icon>
                 <span>充值 - {{currentUserData.user_name}} </span>
             </p>
-            <Form ref="newUserData" :model="rechargeData" :rules="ruleValidate" :label-width="80">
+            <Form ref="rechargeData" :model="rechargeData" :rules="ruleValidate" :label-width="80">
                 <Form-item label="操作时间" prop="add_time">
                     <Date-picker type="datetime" placeholder="选择日期和时间"  v-model="rechargeData.add_time" style="width: 180px"></Date-picker>
                 </Form-item>
@@ -28,20 +28,15 @@
                         </Form-item>
                     </Col>
 
-                    <Col span="6">
-                        <Form-item label="微信" prop="pay_weixin">
-                            <Input v-model="rechargeData.pay_weixin" @on-change = "getPayMoney"></Input>
-                        </Form-item>
-                    </Col>
-                    <Col span="6">
-                        <Form-item label="支付宝" prop="pay_zhifubao">
-                            <Input v-model="rechargeData.pay_zhifubao" @on-change = "getPayMoney"></Input>
+                    <Col span="6" offset = 1>
+                        <Form-item label="微信/支付宝" prop="pay_mobile">
+                            <Input v-model="rechargeData.pay_mobile" @on-change = "getPayMoney"></Input>
                         </Form-item>
                     </Col>
                 </Row>
                 <Row>
                     <Col span="8">
-                        <Form-item label="实收金额" prop="user_name">
+                        <Form-item label="实收金额" prop="payMoney">
                             <Input v-model="payMoney" disabled></Input>
                         </Form-item>
                     </Col>
@@ -57,28 +52,28 @@
                 <br/>
                 <hr/>
                 <br/>
-                <Form-item label="选择销售人" prop="pay_emps">
-                    <Select v-model="rechargeData.pay_emps" multiple style="width:260px">
+                <Form-item label="销售人" prop="empRate">
+                    <Select v-model="empRate" multiple style="width:360px" @on-change="setMoneyRate">
                         <Option v-for="item in empData" :value="item.emp_id" :key="item.emp_id">{{ item.emp_name }}</Option>
                     </Select>
                 </Form-item>
 
-                <ul>
-                    <li v-for="item in  rechargeData.pay_emps">
-                        <Form-item :label="item" prop="user_name">
-                            <Input v-model="payMoney" disabled></Input>
+                <Row>
+                    <Col span="8" v-for="item in rechargeData.pay_emps" :key="item.emp_id">
+                        <Form-item :label="item.emp_name">
+                            <Input v-model="item.money"></Input>
                         </Form-item>
-                    </li>
-                </ul>
+                    </Col>
+                </Row>
 
+                <p style="color: red;text-align: center">
+                    注: 销售人分配总金额 = 实收金额
+                </p>
                 <br/>
-
-                <br/>
-
             </Form>
 
             <p slot="footer" style="text-align: center">
-                <Button type="primary" @click="handleSubmit('newUserData')">确认充值</Button>
+                <Button type="primary" @click="printData">确认充值</Button>
                 <Button type="ghost" @click="handleReset('newUserData')" style="margin-left: 8px">重 置</Button>
             </p>
 
@@ -91,8 +86,6 @@
     import { formatDate } from '../utils/utils'
     export default {
         props: {
-//            globalConfig: Object,
-//            empData: Array,
             currentUserData: Object,
             empData: Array
         },
@@ -105,32 +98,54 @@
                     charge_money: "",
                     pay_cash: 0,
                     pay_card: 0,
-                    pay_weixin: 0,
-                    pay_zhifubao: 0,
+                    pay_mobile: 0,
                     pay_emps:[]
                 },
+                empRate:[],
                 payMoney: 0,
                 debt: 0,
-//
-//                ruleValidate: {
-//                    charge_money: [
-//                        { required: true, message: '姓名不能为空', trigger: 'blur' }
-//                    ],
-//                    pay_cash: [
-//                        { required: true, message: '手机不能为空', trigger: 'blur' }
-//                    ]
-//                }
+
+                ruleValidate: {
+                    charge_money: [
+                        { required: true, message: '充值金额不能为空', trigger: 'blur' }
+                    ],
+                    empRate: [
+                        { required: true, message: '请分配销售人员', trigger: 'blur' }
+                    ]
+                }
             }
         },
 
         methods: {
 
             getPayMoney() {
-                this.payMoney =  Number(this.rechargeData.pay_cash) + Number(this.rechargeData.pay_card) + Number(this.rechargeData.pay_weixin) + Number(this.rechargeData.pay_zhifubao)
+                this.payMoney =  Number(this.rechargeData.pay_cash) + Number(this.rechargeData.pay_card) + Number(this.rechargeData.pay_mobile)
                 this.payMoney = this.payMoney.toFixed(2)
                 this.debt     =  Number(this.rechargeData.charge_money) - this.payMoney
                 this.debt     = this.debt.toFixed(2)
             },
+
+            setMoneyRate() {
+                let money = this.payMoney / this.empRate.length
+                this.rechargeData.pay_emps = []
+                this.empData.forEach((item) => {
+                    if(this.empRate.indexOf(item.emp_id) >= 0) {
+                        this.rechargeData.pay_emps.push(
+                            {
+                                "emp_id": item.emp_id,
+                                "emp_name": item.emp_name,
+                                "money" : money
+                            }
+                        )
+                    }
+                })
+            },
+
+            printData() {
+                console.log(this.rechargeData.pay_emps)
+            },
+
+
 //            handleSubmit (name) {
 //                this.$refs[name].validate((valid) => {
 //                    if (valid) {
@@ -158,6 +173,8 @@
 //            handleReset (name) {
 //                this.$refs[name].resetFields()
 //            },
+
+
             showRechargeModel(name) {
                 this.rechargeModel = true
 //                this.$refs[name].resetFields()
