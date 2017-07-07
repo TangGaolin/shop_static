@@ -36,17 +36,18 @@
                 </Row>
                 <Row>
                     <Col span="8">
-                        <Form-item label="实收金额" prop="payMoney">
-                            <Input v-model="payMoney" disabled></Input>
+
+                        <Form-item label="实收金额" prop="payMoney" >
+                            <Tag type="border" color="green">{{payMoney}}</Tag>
                         </Form-item>
                     </Col>
                     <Col span="8">
-                         <Form-item label="欠款金额" prop="user_name">
-                            <Input v-model=debt disabled></Input>
+                         <Form-item label="欠款金额" prop="debt" style="color: red">
+                             <Tag type="border" color="red">{{debt}}</Tag>
                          </Form-item>
                      </Col>
                 </Row>
-                <p style="color: red;text-align: center">
+                <p style="color: blue;text-align: center">
                     注: 实收金额 = 现金+银行卡+微信+支付宝 &nbsp;&nbsp; 欠款金额 = 充值金额-实收金额
                 </p>
                 <br/>
@@ -66,23 +67,23 @@
                     </Col>
                 </Row>
 
-                <p style="color: red;text-align: center">
+                <p style="color: blue;text-align: center">
                     注: 销售人分配总金额 = 实收金额
                 </p>
+
                 <br/>
             </Form>
 
             <p slot="footer" style="text-align: center">
-                <Button type="primary" @click="printData">确认充值</Button>
-                <Button type="ghost" @click="handleReset('newUserData')" style="margin-left: 8px">重 置</Button>
+                <Button type="primary" @click="rechargeSubmit('rechargeData')">确认充值</Button>
+                <Button type="ghost" @click="handleReset('rechargeData')" style="margin-left: 8px">重 置</Button>
             </p>
-
         </Modal>
     </span>
 </template>
 <script>
 
-    import { addUser } from '../api/api'
+    import { recharge } from '../api/api'
     import { formatDate } from '../utils/utils'
     export default {
         props: {
@@ -102,15 +103,12 @@
                     pay_emps:[]
                 },
                 empRate:[],
-                payMoney: 0,
-                debt: 0,
+                payMoney: "0.00",
+                debt: "0.00",
 
                 ruleValidate: {
                     charge_money: [
                         { required: true, message: '充值金额不能为空', trigger: 'blur' }
-                    ],
-                    empRate: [
-                        { required: true, message: '请分配销售人员', trigger: 'blur' }
                     ]
                 }
             }
@@ -126,7 +124,7 @@
             },
 
             setMoneyRate() {
-                let money = this.payMoney / this.empRate.length
+                let money = (this.payMoney / this.empRate.length).toFixed(2)
                 this.rechargeData.pay_emps = []
                 this.empData.forEach((item) => {
                     if(this.empRate.indexOf(item.emp_id) >= 0) {
@@ -141,38 +139,47 @@
                 })
             },
 
-            printData() {
-                console.log(this.rechargeData.pay_emps)
+            rechargeSubmit(name) {
+                this.$refs[name].validate((valid) => {
+                    if (valid) {
+                        //验证规则
+                        //1.欠款不能为负数
+                        if(this.debt < 0) {
+                            this.$Message.error('收银金额大于充值金额，请认真输入!')
+                            return
+                        }
+                        //2.销售人金额分配不能大于实收金额
+                        let emps_sum = 0
+                        this.rechargeData.pay_emps.forEach((item) => {
+                            emps_sum += Number(item.money)
+                        })
+
+                        if(emps_sum > this.payMoney) {
+                            this.$Message.error({
+                                content: '员工分配金额不能大于收入金额，请认真输入!',
+                                duration: 5
+                            })
+                            return
+                        }
+
+                        this.rechargeData.add_time = formatDate(this.rechargeData.add_time,"yyyy-MM-dd HH:mm:ss")
+                        this.rechargeData.uid = this.currentUserData.uid
+                        recharge(this.rechargeData).then((response) => {
+                            if (0 !== response.statusCode) {
+                                this.$Message.error(response.msg)
+                                //重置时间
+                                this.rechargeData.add_time = new Date()
+                            } else {
+                                this.$Message.success('提交成功!')
+                                this.rechargeModel = false
+                                this.$emit('recharge')
+                            }
+                        })
+                    } else {
+                        this.$Message.error('表单验证失败!')
+                    }
+                })
             },
-
-
-//            handleSubmit (name) {
-//                this.$refs[name].validate((valid) => {
-//                    if (valid) {
-//                        this.newUserData.add_time = formatDate(this.newUserData.add_time,"yyyy-MM-dd HH:mm:ss")
-//                        this.newUserData.birthday = formatDate(this.newUserData.birthday,"yyyy-MM-dd")
-//                        this.newUserData.shop_id = this.shopConfig.shop_id
-//
-//                        addUser(this.newUserData).then((response) => {
-//                            if (0 !== response.statusCode) {
-//                                this.$Message.error(response.msg)
-//                                //重置时间
-//                                this.newUserData.add_time = new Date()
-//                                this.newUserData.birthday = ""
-//                            } else {
-//                                this.$Message.success('提交成功!')
-//                                this.newUserModel = false
-//                                this.$emit('addUser', this.newUserData)
-//                            }
-//                        })
-//                    } else {
-//                        this.$Message.error('表单验证失败!')
-//                    }
-//                })
-//            },
-//            handleReset (name) {
-//                this.$refs[name].resetFields()
-//            },
 
 
             showRechargeModel(name) {

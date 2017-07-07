@@ -66,3 +66,14 @@ export function searchUserList(params) {
 }
 
 
+export function recharge(params) {
+    const data = params
+    return fetch({
+        url:  process.env.API_ROOT + '/shop/recharge',
+        method: 'post',
+        data
+    });
+}
+
+
+
