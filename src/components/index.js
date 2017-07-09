@@ -7,6 +7,7 @@ Vue.component('UserInfo', require('./UserInfo.vue'))
 Vue.component('AddUser', require('./AddUser.vue'))
 Vue.component('DataView', require('./DataViews.vue'))
 Vue.component('Recharge', require('./Recharge.vue'))
+Vue.component('OrderList', require('./OrderList.vue'))
 
 
 

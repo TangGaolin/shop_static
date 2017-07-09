@@ -36,7 +36,6 @@
                 </Row>
                 <Row>
                     <Col span="8">
-
                         <Form-item label="实收金额" prop="payMoney" >
                             <Tag type="border" color="green">{{payMoney}}</Tag>
                         </Form-item>
@@ -170,7 +169,7 @@
                                 //重置时间
                                 this.rechargeData.add_time = new Date()
                             } else {
-                                this.$Message.success('提交成功!')
+                                this.$Message.success('充值成功!')
                                 this.rechargeModel = false
                                 this.$emit('recharge')
                             }

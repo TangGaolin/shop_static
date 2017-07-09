@@ -140,20 +140,25 @@
                                 </div>
                                 <br/>
                                 <div>
-                                    <Recharge :currentUserData = currentUserData
-                                    :empData = empData></Recharge>
+                                    <Recharge
+                                            :currentUserData = currentUserData
+                                            :empData = empData
+                                            v-on:recharge = "recharge"
+                                    ></Recharge>
                                     <Button type="ghost">购买服务</Button>
                                     <Button type="ghost">购买产品</Button>
-                                    <Button type="ghost">还款</Button>
+                                    <Button type="ghost">还 款</Button>
                                 </div>
 
-                                <Tabs value="items">
+                                <Tabs value="items"  @on-click = "loadListData">
                                     <Tab-pane label="卡项服务" name="items">
 
                                     </Tab-pane>
-                                    <Tab-pane label="购买记录" name="buys">
 
+                                    <Tab-pane label="购买记录" name="buys">
+                                        <OrderList></OrderList>
                                     </Tab-pane>
+
                                     <Tab-pane label="耗卡记录" name="userd">
 
                                     </Tab-pane>
@@ -182,6 +187,7 @@
         data() {
             return {
                 currentUserData: false,
+                orderList:[],
                 empData: [],
                 empTotal:0
             }
@@ -223,17 +229,29 @@
                         this.$Message.error(response.msg)
                     }else{
                         this.currentUserData = response.data
+
                     }
                 }).catch((error) => {
                     console.log(error)
                 })
             },
             addUser(userData) {
-                this.loadUserDetail(userData);
+                this.loadUserDetail(userData)
             },
             chooseUser(uid) {
-                this.loadUserDetail({uid: uid});
+                this.loadUserDetail({uid: uid})
+            },
+            recharge() {
+                this.loadUserDetail({uid: this.currentUserData.uid})
+            },
+
+            loadOrderData(name) {
+                console.log(name)
             }
-        }
+
+
+
+
+    }
     }
 </script>

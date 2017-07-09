@@ -76,4 +76,15 @@ export function recharge(params) {
 }
 
 
+export function getOrderList(params) {
+    const data = params
+    return fetch({
+        url:  process.env.API_ROOT + '/shop/getOrderList',
+        method: 'post',
+        data
+    });
+}
+
+
+
 
