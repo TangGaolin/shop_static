@@ -144,6 +144,7 @@
                             <Tab-pane label="购买记录" name="buys">
                                 <OrderList :currentUserData = currentUserData
                                            :userOrders = userOrders
+                                           :globalConfig = globalConfig
                                 ></OrderList>
                             </Tab-pane>
 
@@ -174,7 +175,8 @@
             ...mapGetters([
                 'userInfo',
                 'userOrders',
-                'currentUserData'
+                'currentUserData',
+                'globalConfig',
             ])
         },
         created() {

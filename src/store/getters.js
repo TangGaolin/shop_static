@@ -1,7 +1,9 @@
 const getters = {
     userInfo: state => state.account.userInfo, //登录账号信息
-    currentUserData: state => state.userData.currentUserData,
-    userOrders: state => state.userData.userOrders,  //会员订单信息
+    globalConfig: state => state.account.globalConfig,  //会员订单信息
 
+    currentUserData: state => state.userData.currentUserData, //当前账号
+    userOrders: state => state.userData.userOrders,  //会员订单信息
 }
+
 export default getters

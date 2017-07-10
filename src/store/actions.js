@@ -1,6 +1,8 @@
 import * as types from './types'
 import { login,logout, getConfig, getOrderList, getUserDetail } from '../api/api'
 import { Message } from 'iview'
+import router from '../router'
+
 export const loginAction = ({commit}, params) => {
     return new Promise((resolve, reject)=> { 
 	    login(params).then((response) => {
@@ -19,7 +21,6 @@ export const loginAction = ({commit}, params) => {
 export const logoutAction = ({commit}, params) => {
     return new Promise((resolve, reject)=> { 
 	    logout(params).then((response) => {
-	    	console.log(response)
 	    	if(0 != response.statusCode) {
 				Message.error(response.msg)
 	    	}else{
@@ -36,7 +37,6 @@ export const logoutAction = ({commit}, params) => {
 export const getConfigAction = ({commit}, params) => {
     return new Promise((resolve, reject)=> {
         getConfig(params).then((response) => {
-            console.log(response)
             if(0 != response.statusCode) {
                 Message.error(response.msg)
             }else{
@@ -53,11 +53,15 @@ export const loadUserDetail = ({commit}, params) => {
     return new Promise((resolve, reject)=> {
         //获取用户详细信息
         getUserDetail(params).then((response) => {
-            console.log(response)
             if(0 !== response.statusCode) {
-                this.$Message.error(response.msg)
+                Message.error(response.msg)
             }else{
-                commit(types.SET_CURRENT_USER, response.data); //获得的数据通过mutation，存入store中
+                if(false === response.data){
+                    Message.error('用户信息不存在')
+                    router.push('/')
+                }else{
+                    commit(types.SET_CURRENT_USER, response.data); //获得的数据通过mutation，存入store中
+                }
             }
         }).catch((error) => {
             console.log(error)

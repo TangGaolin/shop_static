@@ -15,7 +15,8 @@
     export default {
         props: {
             userOrders: Object,
-            currentUserData: Object
+            currentUserData: Object,
+            globalConfig: Object
         },
         data() {
             return {
@@ -30,7 +31,7 @@
                         title: '类 型',
                         key: 'order_type',
                         render: (h, params) => {
-                            return params.row.order_type == 0 ? "充值" : "其他";
+                            return this.globalConfig.order_types[params.row.order_type]
                         }
                     },
                     {
@@ -39,7 +40,10 @@
                     },
                     {
                         title: '订单状态',
-                        key: 'status'
+                        key: 'status',
+                        render: (h, params) => {
+                            return this.globalConfig.order_status[params.row.status]
+                        }
                     },
                     {
                         title: '结算时间',

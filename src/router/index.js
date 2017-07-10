@@ -4,10 +4,10 @@ import Router from 'vue-router'
 
 import store from '../store'
 
-const Login = resolve       => require(['../pages/Login'], resolve)
-
-const Header = resolve      => require(['../pages/header'], resolve)
-const Index = resolve       => require(['../pages/Index'], resolve)
+const Login =           resolve  => require(['../pages/Login'], resolve)
+const Layout =          resolve  => require(['../pages/Layout'], resolve)
+const dashboard =       resolve  => require(['../pages/dashboard'], resolve)
+const UserController =  resolve  => require(['../pages/UserController'], resolve)
 
 Vue.use(Router)
 
@@ -20,24 +20,30 @@ const router = new Router({
         },
         {
             path: '/',
-            component: Header,
-            redirect: '/index',
+            component: Layout,
+            redirect: '/dashboard',
             name: '首页',
             children: [
                 {
-                    path: 'index',
-                    component: Index
+                    path: 'dashboard',
+                    name: "dashboard",
+                    component: dashboard
+                },
+                {
+                    path: 'user-controller',
+                    name: "userController",
+                    component: UserController
                 }
             ]
         },
         {
             path: '/orderList',
-            component: Header,
-            name: '审核交班',
+            component: Layout,
+            name: '交班审核',
             children: [
                 {
                     path: 'index',
-                    component: Index
+                    component: UserController
                 }
             ]
         }

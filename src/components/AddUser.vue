@@ -94,7 +94,13 @@
                             } else {
                                 this.$Message.success('提交成功!')
                                 this.newUserModel = false
-                                this.$store.dispatch('loadUserDetail', this.newUserData)
+                                if("userController" === this.$route.name) {
+//                                    this.$store.dispatch('loadUserDetail', { uid:uid })
+                                    this.$store.dispatch('loadUserDetail', this.newUserData)
+                                }else{
+                                    this.$router.push('/user-controller?phone_no=' + this.newUserData.phone_no + '&shop_id=' + this.newUserData.shop_id)
+                                }
+
                             }
                         })
                     } else {

@@ -82,8 +82,11 @@
                 this.searchResModel = false
             },
             chooseUser (uid) {
-//                this.$emit('chooseUser', uid)
-                this.$store.dispatch('loadUserDetail', { uid:uid })
+                if("userController" === this.$route.name) {
+                    this.$store.dispatch('loadUserDetail', { uid:uid })
+                }else{
+                    this.$router.push('/user-controller?uid=' + uid)
+                }
                 this.closeSearchModel()
             }
         }

@@ -2,7 +2,7 @@ import * as types from '../types'
 
 const state = {
     userOrders: {},
-    currentUserData: false
+    currentUserData: {}
 }
 const mutations = {
 
