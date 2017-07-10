@@ -5,6 +5,8 @@ import Router from 'vue-router'
 import store from '../store'
 
 const Login = resolve       => require(['../pages/Login'], resolve)
+
+const Header = resolve      => require(['../pages/header'], resolve)
 const Index = resolve       => require(['../pages/Index'], resolve)
 
 Vue.use(Router)
@@ -18,8 +20,26 @@ const router = new Router({
         },
         {
             path: '/',
-            name: 'index',
-            component: Index
+            component: Header,
+            redirect: '/index',
+            name: '首页',
+            children: [
+                {
+                    path: 'index',
+                    component: Index
+                }
+            ]
+        },
+        {
+            path: '/orderList',
+            component: Header,
+            name: '审核交班',
+            children: [
+                {
+                    path: 'index',
+                    component: Index
+                }
+            ]
         }
   ]
 })

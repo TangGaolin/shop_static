@@ -1,7 +1,6 @@
 import * as types from './types'
-import { login,logout,getConfig } from '../api/api'
-import {LoadingBar, Message} from 'iview'
-
+import { login,logout, getConfig, getOrderList, getUserDetail } from '../api/api'
+import { Message } from 'iview'
 export const loginAction = ({commit}, params) => {
     return new Promise((resolve, reject)=> { 
 	    login(params).then((response) => {
@@ -42,6 +41,63 @@ export const getConfigAction = ({commit}, params) => {
                 Message.error(response.msg)
             }else{
                 commit(types.SET_CONFIG,response.data); //获得的数据通过mutation，存入store中
+                resolve(response)
+            }
+        }).catch((error) => {
+            console.log(error)
+        })
+    })
+}
+
+export const loadUserDetail = ({commit}, params) => {
+    return new Promise((resolve, reject)=> {
+        //获取用户详细信息
+        getUserDetail(params).then((response) => {
+            console.log(response)
+            if(0 !== response.statusCode) {
+                this.$Message.error(response.msg)
+            }else{
+                commit(types.SET_CURRENT_USER, response.data); //获得的数据通过mutation，存入store中
+            }
+        }).catch((error) => {
+            console.log(error)
+        })
+
+        //若是新创建用户则不执行
+        if(!('uid' in params)){
+            return;
+        }
+
+        //加载用户卡项服务数据
+
+
+        //加载用户购买服务数据
+        getOrderList(params).then((response) => {
+            if(0 != response.statusCode) {
+                Message.error(response.msg)
+            }else{
+                commit(types.SET_USER_ORDERS, response.data); //获得的数据通过mutation，存入store中
+                resolve(response)
+            }
+        }).catch((error) => {
+            console.log(error)
+        })
+
+
+        //加载用户耗卡记录数据
+
+    })
+}
+
+
+//独立获取购买记录数据
+export const getUserOrderList = ({commit}, params) => {
+    return new Promise((resolve, reject)=> {
+        getOrderList(params).then((response) => {
+            if(0 != response.statusCode) {
+                Message.error(response.msg)
+            }else{
+                commit(types.SET_USER_ORDERS,response.data); //获得的数据通过mutation，存入store中
                 resolve(response)
             }
         }).catch((error) => {

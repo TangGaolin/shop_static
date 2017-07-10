@@ -94,7 +94,7 @@
                             } else {
                                 this.$Message.success('提交成功!')
                                 this.newUserModel = false
-                                this.$emit('addUser', this.newUserData)
+                                this.$store.dispatch('loadUserDetail', this.newUserData)
                             }
                         })
                     } else {

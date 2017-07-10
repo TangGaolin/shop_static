@@ -171,7 +171,7 @@
                             } else {
                                 this.$Message.success('充值成功!')
                                 this.rechargeModel = false
-                                this.$emit('recharge')
+                                this.$store.dispatch('loadUserDetail', {'uid': this.currentUserData.uid})
                             }
                         })
                     } else {
@@ -183,7 +183,6 @@
 
             showRechargeModel(name) {
                 this.rechargeModel = true
-//                this.$refs[name].resetFields()
                 this.rechargeData.add_time = new Date()
             }
         }

@@ -2,3 +2,6 @@
 export const SET_ACCOUNT = 'SET_ACCOUNT'
 export const UNSET_ACCOUNT = 'UNSET_ACCOUNT'
 export const SET_CONFIG = 'SET_CONFIG'
+
+export const SET_CURRENT_USER = 'SET_CURRENT_USER'
+export const SET_USER_ORDERS = 'SET_USER_ORDERS'

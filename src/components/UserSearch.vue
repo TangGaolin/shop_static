@@ -82,7 +82,8 @@
                 this.searchResModel = false
             },
             chooseUser (uid) {
-                this.$emit('chooseUser', uid)
+//                this.$emit('chooseUser', uid)
+                this.$store.dispatch('loadUserDetail', { uid:uid })
                 this.closeSearchModel()
             }
         }
