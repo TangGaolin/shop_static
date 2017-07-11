@@ -26,7 +26,12 @@
                         :currentUserData = currentUserData
                         :empData = empData
                 ></Recharge>
-                <Button type="ghost">购买服务</Button>
+
+                <BuyItems
+                        :currentUserData = currentUserData
+                        :empData = empData
+                >
+                </BuyItems>
                 <Button type="ghost">购买产品</Button>
                 <Button type="ghost">还 款</Button>
             </div>

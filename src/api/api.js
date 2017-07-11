@@ -85,6 +85,15 @@ export function getOrderList(params) {
     });
 }
 
+export function getItemList(params) {
+    const data = params
+    return fetch({
+        url:  process.env.API_ROOT + '/shop/getItemList',
+        method: 'post',
+        data
+    });
+}
+
 
 
 
