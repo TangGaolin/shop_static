@@ -151,7 +151,7 @@
                 loading: false,
                 rechargeModel: false,
                 selectItem: [],
-                selectedItems: {},
+                selectedItems: [],
                 items:[],
                 BuyItemsData: {
                     add_time: "",
@@ -188,24 +188,31 @@
             },
 
             converItemData() {
-                this.selectedItems = {}
+                this.selectedItems = []
                 this.selectItem.forEach((item) => {
                     let itemObj = JSON.parse(item)
                     itemObj.times = 1
                     itemObj.discount = 10.00
                     itemObj.sold_money = itemObj.price * itemObj.times
-                    this.selectedItems[itemObj.item_id] = itemObj
+                    this.selectedItems.push(itemObj)
                 })
-                console.log(this.selectedItems)
             },
 
             changeTimes(item_id) {
-                console.log(item_id)
-                this.selectedItems[item_id].sold_money = this.selectedItems[item_id].price * this.selectedItems[item_id].times
-                console.log(this.selectedItems[item_id].sold_money)
+                this.selectedItems.forEach((item) => {
+                    if(item.item_id === item_id){
+                        item.sold_money = item.price * item.times
+                    }
+                })
             },
 
             changeMoney(item_id) {
+                this.selectedItems.forEach((item) => {
+                    if(item.item_id === item_id){
+                        console.log(item.times)
+                        item.discount = (item.sold_money / item.price * item.times).toFixed(2)
+                    }
+                })
                 this.selectedItems[item_id].discount = (this.selectedItems[item_id].sold_money / this.selectedItems[item_id].price * this.selectedItems[item_id].times).toFixed(2)
             },
 
