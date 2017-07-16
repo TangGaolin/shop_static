@@ -60,11 +60,12 @@
     import { mapGetters } from 'vuex'
 
     export default {
+        props: {
+            empData: Array
+        },
         data() {
             return {
                 orderList:[],
-                empData: [],
-                empTotal:0
             }
         },
         computed: {

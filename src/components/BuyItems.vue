@@ -5,8 +5,8 @@
 </style>
 <template>
     <span>
-        <Button type="ghost" @click = "showRechargeModel('BuyItemsData')" >购买服务</Button>
-        <Modal v-model="rechargeModel" width="780" >
+        <Button type="ghost" @click = "showBuyItemsModel('BuyItemsData')" >购买服务</Button>
+        <Modal v-model="buyItemsModel" width="780" >
             <p slot="header" style="color:#f60;text-align:center;font-size: 18px">
                 <Icon type="cash" size="18"></Icon>
                 <span>购买服务 - {{currentUserData.user_name}} </span>
@@ -32,25 +32,25 @@
                     </Select>
                 </Form-item>
 
-                <Form-item label="" prop="select_item" >
-                    <Row style="border-bottom: 1px solid #ccc;font-weight: bolder">
+                <Form-item label="" prop="select_item" v-if = "BuyItemsData.selectedItems.length > 0">
+                    <Row style="border-bottom: 1px solid #ccc;font-weight: bolder" >
                         <Col span="4">
                             项目名称
                         </Col>
                         <Col span="4">
-                            单价
+                            单价（元）
                         </Col>
                         <Col span="4">
-                            次数
+                            次数（次）
                         </Col>
                         <Col span="4">
                             折扣
                         </Col>
                         <Col span="4">
-                            销售价
+                            销售价（元）
                         </Col>
                     </Row>
-                    <Row v-for="item in selectedItems" :key="item.item_id" style="border-bottom: 1px solid #ccc">
+                    <Row v-for="item in BuyItemsData.selectedItems" :key="item.item_id" style="border-bottom: 1px solid #ccc">
                         <Col span="4">
                             {{ item.item_name }}
                         </Col>
@@ -67,12 +67,21 @@
                             <Input v-model = item.sold_money class="short_input" size="small" @on-change="changeMoney(item.item_id)"></Input>
                         </Col>
                     </Row>
+
+
+                </Form-item>
+                <Form-item label="消费总计" >
+                    <Tag type="dot" color="green">{{ BuyItemsData.itemsMoney }} 元</Tag>
+                </Form-item>
+                <hr/>
+                <br/>
+
+                <Form-item label="使用余额" prop="pay_cash">
+                    <Input v-model="BuyItemsData.pay_balance" @on-change = "getPayMoney" style="width: 180px"></Input>
+                    &nbsp; &nbsp;
+                    <Tag type="dot" color="yellow">{{currentUserData.balance}}元可用</Tag>
                 </Form-item>
 
-                <hr/>
-
-
-                <br/>
                 <Row>
                     <Col span="6">
                         <Form-item label="现金" prop="pay_cash">
@@ -104,7 +113,7 @@
                      </Col>
                 </Row>
                 <p style="color: blue;text-align: center">
-                    注: 实收金额 = 现金+银行卡+微信+支付宝 &nbsp;&nbsp; 欠款金额 = 充值金额-实收金额
+                    注: 实收金额 = 现金+银行卡+微信+支付宝 &nbsp;&nbsp; 欠款金额 = 消费金额 - 会员卡余额 - 实收金额
                 </p>
                 <br/>
                 <hr/>
@@ -131,7 +140,7 @@
             </Form>
 
             <p slot="footer" style="text-align: center">
-                <Button type="primary" @click="rechargeSubmit('BuyItemsData')">确认充值</Button>
+                <Button type="primary" @click="buyItemsSubmit('BuyItemsData')">确认充值</Button>
                 <Button type="ghost" @click="handleReset('BuyItemsData')" style="margin-left: 8px">重 置</Button>
             </p>
         </Modal>
@@ -139,7 +148,7 @@
 </template>
 <script>
 
-    import { getItemList } from '../api/api'
+    import { getItemList, buyItems } from '../api/api'
     import { formatDate } from '../utils/utils'
     export default {
         props: {
@@ -149,12 +158,14 @@
         data () {
             return {
                 loading: false,
-                rechargeModel: false,
+                buyItemsModel: false,
                 selectItem: [],
-                selectedItems: [],
                 items:[],
                 BuyItemsData: {
                     add_time: "",
+                    selectedItems: [],
+                    itemsMoney: 0,
+                    pay_balance: 0,
                     pay_cash: 0,
                     pay_card: 0,
                     pay_mobile: 0,
@@ -173,6 +184,7 @@
         },
 
         methods: {
+            // 获取项目列表
             getItemList(query) {
                 if (query !== '') {
                     this.loading = true
@@ -187,39 +199,52 @@
                 }
             },
 
+            // 转化数据
             converItemData() {
-                this.selectedItems = []
+                this.BuyItemsData.selectedItems = []
+                this.BuyItemsData.itemsMoney = 0
                 this.selectItem.forEach((item) => {
                     let itemObj = JSON.parse(item)
-                    itemObj.times = 1
-                    itemObj.discount = 10.00
+                    itemObj.discount = 10.00 //初始化
                     itemObj.sold_money = itemObj.price * itemObj.times
-                    this.selectedItems.push(itemObj)
+                    this.BuyItemsData.itemsMoney += Number(itemObj.sold_money)
+                    this.BuyItemsData.selectedItems.push(itemObj)
                 })
             },
 
+            // 修改次数
             changeTimes(item_id) {
-                this.selectedItems.forEach((item) => {
+                this.BuyItemsData.selectedItems.forEach((item) => {
                     if(item.item_id === item_id){
                         item.sold_money = item.price * item.times
                     }
                 })
+                this.getItemsMoney()
             },
 
+            // 修改金额
             changeMoney(item_id) {
-                this.selectedItems.forEach((item) => {
+                this.BuyItemsData.selectedItems.forEach((item) => {
                     if(item.item_id === item_id){
-                        console.log(item.times)
-                        item.discount = (item.sold_money / item.price * item.times).toFixed(2)
+                        item.discount = (item.sold_money / (item.price * item.times) * 10).toFixed(2)
                     }
                 })
-                this.selectedItems[item_id].discount = (this.selectedItems[item_id].sold_money / this.selectedItems[item_id].price * this.selectedItems[item_id].times).toFixed(2)
+                this.getItemsMoney()
             },
 
+            // 计算项目总金额
+            getItemsMoney() {
+                this.BuyItemsData.itemsMoney = 0
+                this.BuyItemsData.selectedItems.forEach((item) => {
+                    this.BuyItemsData.itemsMoney += Number(item.sold_money)
+                })
+            },
+
+            //计算业绩金额
             getPayMoney() {
                 this.payMoney =  Number(this.BuyItemsData.pay_cash) + Number(this.BuyItemsData.pay_card) + Number(this.BuyItemsData.pay_mobile)
                 this.payMoney = this.payMoney.toFixed(2)
-                this.debt     =  Number(this.BuyItemsData.charge_money) - this.payMoney
+                this.debt     =  Number(this.BuyItemsData.itemsMoney) - this.payMoney - this.BuyItemsData.pay_balance
                 this.debt     = this.debt.toFixed(2)
             },
 
@@ -239,16 +264,22 @@
                 })
             },
 
-            rechargeSubmit(name) {
+            buyItemsSubmit(name) {
                 this.$refs[name].validate((valid) => {
                     if (valid) {
                         //验证规则
-                        //1.欠款不能为负数
+                        // 购买项目不能为空
+                        if(0 === this.BuyItemsData.selectedItems.length) {
+                            this.$Message.error('项目不能为空，确认之后再提交!')
+                            return
+                        }
+
+                        // 欠款不能为负数
                         if(this.debt < 0) {
                             this.$Message.error('收银金额大于充值金额，请认真输入!')
                             return
                         }
-                        //2.销售人金额分配不能大于实收金额
+                        // 销售人金额分配不能大于实收金额
                         let emps_sum = 0
                         this.BuyItemsData.pay_emps.forEach((item) => {
                             emps_sum += Number(item.money)
@@ -261,17 +292,16 @@
                             })
                             return
                         }
-
                         this.BuyItemsData.add_time = formatDate(this.BuyItemsData.add_time,"yyyy-MM-dd HH:mm:ss")
                         this.BuyItemsData.uid = this.currentUserData.uid
-                        recharge(this.BuyItemsData).then((response) => {
+                        buyItems(this.BuyItemsData).then((response) => {
                             if (0 !== response.statusCode) {
                                 this.$Message.error(response.msg)
                                 //重置时间
                                 this.BuyItemsData.add_time = new Date()
                             } else {
-                                this.$Message.success('充值成功!')
-                                this.rechargeModel = false
+                                this.$Message.success('购买成功!')
+                                this.buyItemsModel = false
                                 this.$store.dispatch('loadUserDetail', {'uid': this.currentUserData.uid})
                             }
                         })
@@ -281,9 +311,8 @@
                 })
             },
 
-
-            showRechargeModel(name) {
-                this.rechargeModel = true
+            showBuyItemsModel(name) {
+                this.buyItemsModel = true
                 this.BuyItemsData.add_time = new Date()
             }
         }

@@ -94,6 +94,14 @@ export function getItemList(params) {
     });
 }
 
+export function buyItems(params) {
+    const data = params
+    return fetch({
+        url:  process.env.API_ROOT + '/shop/buyItems',
+        method: 'post',
+        data
+    });
+}
 
 
 

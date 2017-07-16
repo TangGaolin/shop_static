@@ -123,7 +123,7 @@
                         </div>
 
                         <transition name="fade" mode="out-in">
-                            <router-view></router-view>
+                            <router-view :empData = empData></router-view>
                         </transition>
                         </Col>
                     </Row>
