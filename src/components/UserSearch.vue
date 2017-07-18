@@ -60,7 +60,7 @@
         },
         methods: {
             searchUser() {
-                if("" == this.user_name_phone){
+                if("" === this.user_name_phone){
                     return;
                 }
                 searchUserList({
@@ -82,11 +82,7 @@
                 this.searchResModel = false
             },
             chooseUser (uid) {
-                if("userController" === this.$route.name) {
-                    this.$store.dispatch('loadUserDetail', { uid:uid })
-                }else{
-                    this.$router.push('/user-controller?uid=' + uid)
-                }
+                this.$router.push('/user-controller?uid=' + uid)
                 this.closeSearchModel()
             }
         }

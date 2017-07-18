@@ -1,5 +1,5 @@
 import axios from 'axios'
-import store from '../store'
+
 import router from '../router'
 import {LoadingBar} from 'iview'
 axios.defaults.headers.post['Content-Type'] = 'application/json'
@@ -12,7 +12,12 @@ export function fetch(options) {
     LoadingBar.start()
     instance(options)
       .then(response => {
+
         const res = response.data
+        console.log(res.statusCode)
+        if(400 === res.statusCode){
+            router.push('/login')
+        }
         LoadingBar.finish()
         resolve(res)
       })
