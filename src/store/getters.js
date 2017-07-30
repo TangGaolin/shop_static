@@ -4,6 +4,7 @@ const getters = {
 
     currentUserData: state => state.userData.currentUserData, //当前账号
     userOrders: state => state.userData.userOrders,  //会员订单信息
+    userItems: state => state.userData.userItems,  //会员卡项信息
 }
 
 export default getters

@@ -140,8 +140,8 @@
             </Form>
 
             <p slot="footer" style="text-align: center">
-                <Button type="primary" @click="buyItemsSubmit('BuyItemsData')">确认充值</Button>
-                <Button type="ghost" @click="handleReset('BuyItemsData')" style="margin-left: 8px">重 置</Button>
+                <Button type="primary" @click="buyItemsSubmit('BuyItemsData')">确认购买</Button>
+                <Button type="ghost" @click="handleReset()" style="margin-left: 8px">重 置</Button>
             </p>
         </Modal>
     </span>
@@ -302,6 +302,7 @@
                             } else {
                                 this.$Message.success('购买成功!')
                                 this.buyItemsModel = false
+                                this.$refs[name].resetFields()
                                 this.$store.dispatch('loadUserDetail', {'uid': this.currentUserData.uid})
                             }
                         })
@@ -311,7 +312,18 @@
                 })
             },
 
-            showBuyItemsModel(name) {
+            handleReset () {
+                this.BuyItemsData.add_time = new Date()
+                this.BuyItemsData.selectedItems = []
+                this.BuyItemsData.pay_balance = 0
+                this.BuyItemsData.pay_cash = 0
+                this.BuyItemsData.pay_card = 0
+                this.BuyItemsData.pay_mobile = 0
+                this.BuyItemsData.itemsMoney = 0
+                this.BuyItemsData.pay_emps = []
+            },
+
+            showBuyItemsModel() {
                 this.buyItemsModel = true
                 this.BuyItemsData.add_time = new Date()
             }

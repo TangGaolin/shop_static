@@ -2,6 +2,7 @@ import * as types from '../types'
 
 const state = {
     userOrders: {},
+    userItems: {},
     currentUserData: {}
 }
 const mutations = {
@@ -10,8 +11,12 @@ const mutations = {
         state.currentUserData = userData
     },
     [types.SET_USER_ORDERS] (state, orderData) {
-        console.log(orderData)
         state.userOrders = orderData
+    },
+
+    [types.SET_USER_ITEMS] (state, itemData) {
+        console.log(itemData)
+        state.userItems = itemData
     }
 }
 export default {

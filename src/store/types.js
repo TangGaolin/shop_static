@@ -5,3 +5,4 @@ export const SET_CONFIG = 'SET_CONFIG'
 
 export const SET_CURRENT_USER = 'SET_CURRENT_USER'
 export const SET_USER_ORDERS = 'SET_USER_ORDERS'
+export const SET_USER_ITEMS = 'SET_USER_ITEMS'

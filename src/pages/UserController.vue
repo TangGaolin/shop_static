@@ -38,7 +38,10 @@
 
             <Tabs value="items" >
                 <Tab-pane label="卡项服务" name="items">
-
+                    <ItemList :currentUserData = currentUserData
+                               :userItems = userItems
+                               :globalConfig = globalConfig
+                    ></ItemList>
                 </Tab-pane>
 
                 <Tab-pane label="购买记录" name="buys">
@@ -72,12 +75,17 @@
             ...mapGetters([
                 'userInfo',
                 'userOrders',
+                'userItems',
                 'currentUserData',
                 'globalConfig',
             ])
         },
         created() {
             this.getCurrentUserData()
+        },
+        watch: {
+            // 如果路由有变化，会再次执行该方法
+            '$route': 'getCurrentUserData'
         },
         methods: {
             getCurrentUserData(){
