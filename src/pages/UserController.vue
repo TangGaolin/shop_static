@@ -38,8 +38,9 @@
 
             <Tabs value="items" >
                 <Tab-pane label="卡项服务" name="items">
-                    <ItemList :currentUserData = currentUserData
+                    <ItemList  :currentUserData = currentUserData
                                :userItems = userItems
+                               :empData = empData
                                :globalConfig = globalConfig
                     ></ItemList>
                 </Tab-pane>

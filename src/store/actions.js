@@ -1,5 +1,5 @@
 import * as types from './types'
-import { login,logout, getConfig, getOrderList, getUserDetail, getItemList } from '../api/api'
+import { login,logout, getConfig, getOrderList, getUserDetail, getUserItemList } from '../api/api'
 import { Message } from 'iview'
 import router from '../router'
 
@@ -73,7 +73,7 @@ export const loadUserDetail = ({commit}, params) => {
         }
 
         //加载用户卡项服务数据
-        getItemList(params).then((response) => {
+        getUserItemList(params).then((response) => {
             if(0 !== response.statusCode) {
                 Message.error(response.msg)
             }else{
@@ -122,9 +122,9 @@ export const getUserOrderList = ({commit}, params) => {
 
 
 //独立获取购买记录数据
-export const getUserItemList = ({commit}, params) => {
+export const getUserItems = ({commit}, params) => {
     return new Promise((resolve, reject)=> {
-        getItemList(params).then((response) => {
+        getUserItemList(params).then((response) => {
             if(0 !== response.statusCode) {
                 Message.error(response.msg)
             }else{

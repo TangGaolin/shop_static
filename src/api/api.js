@@ -94,6 +94,15 @@ export function getItemList(params) {
     });
 }
 
+export function getUserItemList(params) {
+    const data = params
+    return fetch({
+        url:  process.env.API_ROOT + '/shop/getUserItemList',
+        method: 'post',
+        data
+    });
+}
+
 export function buyItems(params) {
     const data = params
     return fetch({
