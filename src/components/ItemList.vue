@@ -28,6 +28,7 @@
                 </Col>
             </Row>
 
+
             <Row v-for="item in selectedItems" :key="item.item_id" style="border-bottom: 1px solid #ccc;text-align: center">
                 <Col span="4">
                     <Tag  type="border"  color="blue"> {{ item.item_name }} </Tag>
@@ -48,6 +49,14 @@
                 </Col>
             </Row>
 
+
+            <Form  :label-width="100" style="text-align: center;">
+                <Form-item label="选择消耗时间" style="text-align: center;margin-bottom: 0px">
+                    <Date-picker type="datetime" placeholder="选择日期和时间"  v-model="useItemTime" style="width: 180px" ></Date-picker>
+                </Form-item>
+            </Form>
+
+
             <p style="text-align: center">
                 <Button type="primary" @click="useItemsSubmit()"  size="small" >确认耗卡</Button>
                 <Button type="ghost" @click="resetItemData()" style="margin-left: 8px"  size="small">重 置</Button>
@@ -63,16 +72,14 @@
         </p>
 
 
-
-
-        <Modal v-model="editItemModel">
+        <Modal v-model="editItemModel" width="680">
             <p slot="header" style="color:#f60;text-align:center;font-size: 18px">
                 <Icon type="navicon" size="18"></Icon>
                 <span>编辑服务信息 - {{currentItem.item_name}} </span>
             </p>
             <Form ref="BuyItemsData" :model="currentItem" :rules="ruleValidate" :label-width="80">
                 <Form-item label="消耗次数">
-                    <Input v-model="currentItem.use_time" @on-change = "" style="width: 180px"></Input>
+                    <Input-number  v-model="currentItem.use_time" @on-change = "" style="width: 80px" @on-change = "changeUseItem()"></Input-number>
                 </Form-item>
                 <Row>
                     <Col span="10">
@@ -96,15 +103,12 @@
                 <Row>
                     <Col span="8" v-for="item in currentItem.emps" :key="item.emp_id">
                         <Form-item :label="item.emp_name">
-                            <Input v-model="item.fee"></Input>
+                            <Input v-model="item.fee" icon="social-usd-outline"></Input>
+                            <Input v-model="item.xiaohao" icon="coffee"></Input>
                         </Form-item>
                     </Col>
                 </Row>
             </Form>
-
-            <p slot="footer" style="text-align: center">
-                <Button type="primary">确认</Button>
-            </p>
         </Modal>
     </div>
 
@@ -113,12 +117,15 @@
 </template>
 <script>
 
+    import { useItems } from '../api/api'
+    import { formatDate } from '../utils/utils'
     export default {
         props: {
             userItems: Object,
             currentUserData: Object,
             globalConfig: Object,
-            empData: Array
+            empData: Array,
+            userInfo:Object
         },
         data() {
             return {
@@ -126,6 +133,7 @@
                 curPage:1,
                 limit: 10,
                 select_item_ids:[],
+                useItemTime:"",
                 selectedItems:[],
                 currentItem:{},
                 ruleValidate: {
@@ -162,7 +170,7 @@
                         width: 150,
                         align: 'center',
                         render: (h, params) => {
-                            return h('div', [
+                            return !params.row.status ? h('div', [
                                 h('Button', {
                                     props: {
                                         type: 'primary',
@@ -177,7 +185,7 @@
                                         }
                                     }
                                 }, '耗卡')
-                            ]);
+                            ]) : "使用结束"
                         }
                     }
                 ]
@@ -204,10 +212,13 @@
             },
 
             useItem(param) {
+                this.useItemTime = new Date()
                 if(this.select_item_ids.indexOf(param.id) < 0){
                     let item = {
                         order_id: param['order_id'],
                         use_time: 1,
+                        times: param['times'],
+                        used_times: param['used_times'],
                         item_name: param['item_name'],
                         item_id: param['item_id'],
                         id: param['id'],
@@ -240,22 +251,79 @@
 
             setMoneyRate() {
                 let fee = (this.currentItem.emp_fee * this.currentItem.use_time / this.currentItem.emp_ids.length).toFixed(2)
+                let xiaohao = (this.currentItem.sold_price * this.currentItem.use_time / this.currentItem.emp_ids.length).toFixed(2)
                 this.currentItem.emps = []
                 this.empData.forEach((item) => {
                     if(this.currentItem.emp_ids.indexOf(item.emp_id) >= 0) {
                         this.currentItem.emps.push(
                             {
-                                "emp_id": item.emp_id,
+                                "emp_id"  : item.emp_id,
                                 "emp_name": item.emp_name,
-                                "fee" : fee
+                                "fee"     : fee,
+                                "xiaohao" : xiaohao,
                             }
                         )
                     }
                 })
             },
 
+            changeUseItem() {
+                //修改次数之后 这就重新选择员工
+                this.currentItem.emps = [];
+                this.currentItem.emp_ids = [];
+            },
+
             useItemsSubmit() {
-                console.log(this.currentItem);
+
+                //确认是否选择服务人员  确认耗卡次数是否正确  耗卡金额
+                let item = {}, use_money = 0, fee = 0
+                for(let i = 0; i < this.selectedItems.length; i += 1){
+                    item =  this.selectedItems[i]
+                    if(item.emps.length < 1){
+                        this.$Message.warning('请选择服务人员!')
+                        return
+                    }
+                    if(item.use_time + item.used_times > item.times){
+                        this.$Message.warning(item.item_name + "消耗次数不正确，请验证")
+                        return
+                    }
+                    //检查分配手工和消耗金额是否真确
+                    item.emps.forEach((emp) =>{
+                        fee += Number(emp.fee)
+                        use_money += Number(emp.xiaohao)
+                    });
+
+                    console.log(fee)
+                    console.log(use_money)
+                    console.log(Number(item.emp_fee) * Number(item.use_time))
+
+                    if(fee > (Number(item.emp_fee) * Number(item.use_time))){
+                        this.$Message.warning(item.item_name + "手工数据不正确")
+                        return
+                    }
+
+                    if(use_money > Number(item.sold_price) * Number(item.use_time)){
+                        this.$Message.warning(item.item_name + "消耗数据不正确")
+                        return
+                    }
+                }
+
+                let add_time = formatDate(this.useItemTime,"yyyy-MM-dd HH:mm:ss")
+                let param = {
+                    uid: this.currentUserData.uid,
+                    shop_id: this.userInfo.shop_id,
+                    select_items: this.selectedItems,
+                    add_time: add_time
+                }
+                useItems(param).then((response) => {
+                    if (0 !== response.statusCode) {
+                        this.$Message.error(response.msg)
+                    } else {
+                        this.$Message.success('耗卡成功!')
+                        this.resetItemData()
+                        this.$store.dispatch('loadUserDetail', {'uid': this.currentUserData.uid})
+                    }
+                })
             }
 
         }

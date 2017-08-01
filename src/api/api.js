@@ -112,5 +112,12 @@ export function buyItems(params) {
     });
 }
 
-
+export function useItems(params) {
+    const data = params
+    return fetch({
+        url:  process.env.API_ROOT + '/shop/useItems',
+        method: 'post',
+        data
+    });
+}
 

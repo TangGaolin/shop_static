@@ -153,7 +153,8 @@
     export default {
         props: {
             currentUserData: Object,
-            empData: Array
+            empData: Array,
+            userInfo: Object
         },
         data () {
             return {
@@ -294,6 +295,7 @@
                         }
                         this.BuyItemsData.add_time = formatDate(this.BuyItemsData.add_time,"yyyy-MM-dd HH:mm:ss")
                         this.BuyItemsData.uid = this.currentUserData.uid
+                        this.BuyItemsData.shop_id = this.userInfo.shop_id
                         buyItems(this.BuyItemsData).then((response) => {
                             if (0 !== response.statusCode) {
                                 this.$Message.error(response.msg)

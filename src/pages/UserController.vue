@@ -14,7 +14,7 @@
             <div>
                 <h1>
                     <Icon type="person"></Icon>
-                    {{currentUserData.user_name}}
+                        {{currentUserData.user_name}}
                     <Tag color="blue">A 类</Tag>
                 </h1>
                 <br>
@@ -25,11 +25,13 @@
                 <Recharge
                         :currentUserData = currentUserData
                         :empData = empData
+                        :userInfo = userInfo
                 ></Recharge>
 
                 <BuyItems
                         :currentUserData = currentUserData
                         :empData = empData
+                        :userInfo = userInfo
                 >
                 </BuyItems>
                 <Button type="ghost">购买产品</Button>
@@ -41,6 +43,7 @@
                     <ItemList  :currentUserData = currentUserData
                                :userItems = userItems
                                :empData = empData
+                               :userInfo = userInfo
                                :globalConfig = globalConfig
                     ></ItemList>
                 </Tab-pane>
@@ -57,6 +60,8 @@
                 </Tab-pane>
             </Tabs>
         </div>
+        <br/>
+        <br/>
     </div>
 </template>
 

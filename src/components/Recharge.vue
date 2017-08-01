@@ -87,7 +87,8 @@
     export default {
         props: {
             currentUserData: Object,
-            empData: Array
+            empData: Array,
+            userInfo: Object
         },
         data () {
             return {
@@ -163,6 +164,7 @@
 
                         this.rechargeData.add_time = formatDate(this.rechargeData.add_time,"yyyy-MM-dd HH:mm:ss")
                         this.rechargeData.uid = this.currentUserData.uid
+                        this.rechargeData.shop_id = this.userInfo.shop_id
                         recharge(this.rechargeData).then((response) => {
                             if (0 !== response.statusCode) {
                                 this.$Message.error(response.msg)
