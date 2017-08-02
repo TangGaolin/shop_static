@@ -56,7 +56,12 @@
                 </Tab-pane>
 
                 <Tab-pane label="耗卡记录" name="used">
-
+                    <UseOrderList :currentUserData = currentUserData
+                                  :userOrders = userOrders
+                                  :useOrderList = useOrderList
+                                  :globalConfig = globalConfig
+                    >
+                    </UseOrderList>
                 </Tab-pane>
             </Tabs>
         </div>
@@ -81,6 +86,7 @@
             ...mapGetters([
                 'userInfo',
                 'userOrders',
+                'useOrderList',
                 'userItems',
                 'currentUserData',
                 'globalConfig',

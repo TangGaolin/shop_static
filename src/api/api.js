@@ -121,3 +121,11 @@ export function useItems(params) {
     });
 }
 
+export function getUseOrderList(params) {
+    const data = params
+    return fetch({
+        url:  process.env.API_ROOT + '/shop/getUseOrderList',
+        method: 'post',
+        data
+    });
+}

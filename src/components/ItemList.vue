@@ -204,7 +204,7 @@
 
             changePage(page) {
                 this.cur_page = page
-                this.$store.dispatch('getUserOrderList', {
+                this.$store.dispatch('getUserItems', {
                     uid: this.currentUserData.uid,
                     cur_page: page,
                     limit: this.limit

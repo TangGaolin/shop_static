@@ -9,6 +9,7 @@ Vue.component('DataView', require('./DataViews.vue'))
 Vue.component('Recharge', require('./Recharge.vue'))
 Vue.component('OrderList', require('./OrderList.vue'))
 Vue.component('ItemList', require('./ItemList.vue'))
+Vue.component('UseOrderList', require('./UseOrderList.vue'))
 Vue.component('BuyItems', require('./BuyItems.vue'))
 
 

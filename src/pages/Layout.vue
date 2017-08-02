@@ -119,7 +119,9 @@
                             <AddUser :empData = empData
                                      :shopConfig = userInfo
                             ></AddUser>
-                            <Button type="ghost" size="large">交班审核</Button>
+                            <Button type="ghost" size="large">散客交易</Button>
+
+                            <Button type="ghost" size="large" >交班审核</Button>
                         </div>
 
                         <transition name="fade" mode="out-in">

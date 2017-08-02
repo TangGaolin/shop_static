@@ -1,5 +1,5 @@
 import * as types from './types'
-import { login,logout, getConfig, getOrderList, getUserDetail, getUserItemList } from '../api/api'
+import { login,logout, getConfig, getOrderList, getUserDetail, getUserItemList, getUseOrderList } from '../api/api'
 import { Message } from 'iview'
 import router from '../router'
 
@@ -97,14 +97,23 @@ export const loadUserDetail = ({commit}, params) => {
             console.log(error)
         })
 
-
         //加载用户耗卡记录数据
+        getUseOrderList(params).then((response) => {
+            if(0 !== response.statusCode) {
+                Message.error(response.msg)
+            }else{
+                commit(types.SET_USE_ORDER_LIST, response.data); //获得的数据通过mutation，存入store中
+                resolve(response)
+            }
+        }).catch((error) => {
+            console.log(error)
+        })
 
     })
 }
 
 
-//独立获取购买记录数据
+// 获取购买记录数据
 export const getUserOrderList = ({commit}, params) => {
     return new Promise((resolve, reject)=> {
         getOrderList(params).then((response) => {
@@ -120,8 +129,7 @@ export const getUserOrderList = ({commit}, params) => {
     })
 }
 
-
-//独立获取购买记录数据
+// 获取购买项目数据
 export const getUserItems = ({commit}, params) => {
     return new Promise((resolve, reject)=> {
         getUserItemList(params).then((response) => {
@@ -129,6 +137,22 @@ export const getUserItems = ({commit}, params) => {
                 Message.error(response.msg)
             }else{
                 commit(types.SET_USER_ITEMS,response.data); //获得的数据通过mutation，存入store中
+                resolve(response)
+            }
+        }).catch((error) => {
+            console.log(error)
+        })
+    })
+}
+
+// 获取消耗记录数据
+export const getUseOrders = ({commit}, params) => {
+    return new Promise((resolve, reject)=> {
+        getUseOrderList(params).then((response) => {
+            if(0 !== response.statusCode) {
+                Message.error(response.msg)
+            }else{
+                commit(types.SET_USE_ORDER_LIST, response.data); //获得的数据通过mutation，存入store中
                 resolve(response)
             }
         }).catch((error) => {
