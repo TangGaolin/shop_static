@@ -75,7 +75,7 @@ export function recharge(params) {
     });
 }
 
-
+// 获取订单列表接口
 export function getOrderList(params) {
     const data = params
     return fetch({
@@ -120,11 +120,22 @@ export function useItems(params) {
         data
     });
 }
-
+// 获取消耗接口列表
 export function getUseOrderList(params) {
     const data = params
     return fetch({
         url:  process.env.API_ROOT + '/shop/getUseOrderList',
+        method: 'post',
+        data
+    });
+}
+
+
+// 获取消耗接口列表
+export function getShopDataView(params) {
+    const data = params
+    return fetch({
+        url:  process.env.API_ROOT + '/shop/getShopDataView',
         method: 'post',
         data
     });

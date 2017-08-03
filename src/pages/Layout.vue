@@ -121,7 +121,7 @@
                             ></AddUser>
                             <Button type="ghost" size="large">散客交易</Button>
 
-                            <Button type="ghost" size="large" >交班审核</Button>
+                            <Button type="ghost" size="large" @click="goCheckOrder">交班审核</Button>
                         </div>
 
                         <transition name="fade" mode="out-in">
@@ -183,6 +183,9 @@
             },
             goDashboard() {
                 this.$router.push('/dashboard')
+            },
+            goCheckOrder() {
+                this.$router.push('/check-order')
             }
         }
     }

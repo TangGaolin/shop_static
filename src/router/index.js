@@ -8,6 +8,7 @@ const Login =           resolve  => require(['../pages/Login'], resolve)
 const Layout =          resolve  => require(['../pages/Layout'], resolve)
 const dashboard =       resolve  => require(['../pages/dashboard'], resolve)
 const UserController =  resolve  => require(['../pages/UserController'], resolve)
+const CheckOrder =  resolve  => require(['../pages/CheckOrder'], resolve)
 
 Vue.use(Router)
 
@@ -33,17 +34,11 @@ const router = new Router({
                     path: 'user-controller',
                     name: "userController",
                     component: UserController
-                }
-            ]
-        },
-        {
-            path: '/orderList',
-            component: Layout,
-            name: '交班审核',
-            children: [
+                },
                 {
-                    path: 'index',
-                    component: UserController
+                    path: 'check-order',
+                    name: "checkOrder",
+                    component: CheckOrder
                 }
             ]
         }

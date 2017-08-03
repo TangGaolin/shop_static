@@ -32,7 +32,8 @@
                         key: 'order_type',
                         render: (h, params) => {
                             return this.globalConfig.order_types[params.row.order_type]
-                        }
+                        },
+                        width:85
                     },
                     {
                         title: '金 额',
@@ -44,6 +45,10 @@
                         render: (h, params) => {
                             return this.globalConfig.order_status[params.row.status]
                         }
+                    },
+                    {
+                        title: '收银员',
+                        key: 'cashier_name'
                     },
                     {
                         title: '结算时间',

@@ -59,6 +59,10 @@
                         title: '收银员',
                         key: 'cashier_name'
                     },
+                    {
+                        title: '结算时间',
+                        key: 'add_time'
+                    },
 
                 ]
             }

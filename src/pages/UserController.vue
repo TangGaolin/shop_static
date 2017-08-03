@@ -1,16 +1,9 @@
 <style scoped>
-    .user-detail-area {
-        width: auto;
-        padding-top: 20px;
-        margin-left: 55px;
-        margin-right: 55px;
-        font-size: 14px;
-    }
 
 </style>
 <template>
     <div class="content">
-        <div class = "user-detail-area">
+        <!--<div class = "user-detail-area">-->
             <div>
                 <h1>
                     <Icon type="person"></Icon>
@@ -64,7 +57,7 @@
                     </UseOrderList>
                 </Tab-pane>
             </Tabs>
-        </div>
+        <!--</div>-->
         <br/>
         <br/>
     </div>

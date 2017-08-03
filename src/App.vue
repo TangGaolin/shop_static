@@ -27,5 +27,12 @@ export default {
   width: 100%;
   font-size: 12px;
 }
+    .content {
+        width: auto;
+        padding-top: 20px;
+        margin-left: 55px;
+        margin-right: 55px;
+        font-size: 14px;
+    }
 
 </style>
