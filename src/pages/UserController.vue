@@ -20,7 +20,7 @@
                         :empData = empData
                         :userInfo = userInfo
                 ></Recharge>
-
+                <Button type="ghost">产品卡充值</Button>
                 <BuyItems
                         :currentUserData = currentUserData
                         :empData = empData
@@ -28,7 +28,13 @@
                 >
                 </BuyItems>
                 <Button type="ghost">购买产品</Button>
-                <Button type="ghost">还 款</Button>
+
+                <Repayment v-if = "currentUserData.debt > 0"
+                        :currentUserData = currentUserData
+                        :empData = empData
+                        :userInfo = userInfo
+                        :globalConfig = globalConfig
+                ></Repayment>
             </div>
 
             <Tabs value="items" >

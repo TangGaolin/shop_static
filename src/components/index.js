@@ -11,6 +11,7 @@ Vue.component('OrderList', require('./OrderList.vue'))
 Vue.component('ItemList', require('./ItemList.vue'))
 Vue.component('UseOrderList', require('./UseOrderList.vue'))
 Vue.component('BuyItems', require('./BuyItems.vue'))
+Vue.component('Repayment', require('./Repayment.vue'))
 
 
 

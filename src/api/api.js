@@ -140,3 +140,13 @@ export function getShopDataView(params) {
         data
     });
 }
+
+// 还款接口
+export function repay(params) {
+    const data = params
+    return fetch({
+        url:  process.env.API_ROOT + '/shop/repay',
+        method: 'post',
+        data
+    });
+}

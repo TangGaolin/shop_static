@@ -12,9 +12,7 @@ export function fetch(options) {
     LoadingBar.start()
     instance(options)
       .then(response => {
-
         const res = response.data
-        console.log(res.statusCode)
         if(400 === res.statusCode){
             router.push('/login')
         }
