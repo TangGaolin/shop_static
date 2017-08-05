@@ -150,3 +150,13 @@ export function repay(params) {
         data
     });
 }
+
+// 用户列表接口
+export function getShopSideUsers(params) {
+    const data = params
+    return fetch({
+        url:  process.env.API_ROOT + '/shop/getShopSideUsers',
+        method: 'post',
+        data
+    });
+}

@@ -85,31 +85,13 @@
                 <div class="layout-content-main">
                     <Row>
                         <Col span="5">
-                        <div class="user-area">
-                            <UserSearch :shopConfig = userInfo
-                            ></UserSearch>
-                            <br/>
-                            <Collapse >
-                                <Panel name="1">
-                                    预约顾客
-                                    <ul slot="content">
-
-                                    </ul>
-                                </Panel>
-                                <Panel name="2">
-                                    生日提醒
-                                    <p slot="content">
-
-                                    </p>
-                                </Panel>
-                                <Panel name="3">
-                                    今日顾客
-                                    <p slot="content">
-
-                                    </p>
-                                </Panel>
-                            </Collapse>
-                        </div>
+                            <div class="user-area">
+                                <UserSearch :shopConfig = userInfo
+                                ></UserSearch>
+                                <br/>
+                                <UserSideList :shopConfig = userInfo>
+                                </UserSideList>
+                            </div>
                         </Col>
                         <Col span="19">
 
