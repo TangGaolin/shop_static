@@ -8,7 +8,7 @@
             </p>
             <Form ref="newUserData" :model="newUserData" :rules="ruleValidate" :label-width="80">
                 <Form-item label="操作时间" prop="add_time">
-                    <Date-picker type="datetime" placeholder="选择日期和时间"  v-model="newUserData.add_time" style="width: 180px"></Date-picker>
+                    <Date-picker type="datetime" placeholder="选择日期和时间" :options="options1" v-model="newUserData.add_time" style="width: 180px"></Date-picker>
                 </Form-item>
                 <Form-item label="姓名" prop="user_name">
                     <Input v-model="newUserData.user_name" placeholder="会员姓名..."></Input>
@@ -57,6 +57,11 @@
         },
         data () {
             return {
+                options1: {
+                    disabledDate (date) {
+                        return date && date.valueOf() > Date.now();
+                    }
+                },
                 newUserModel: false,
                 newUserData: {
                     user_name: "",

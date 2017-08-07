@@ -13,7 +13,7 @@
             </p>
             <Form ref="BuyItemsData" :model="BuyItemsData" :rules="ruleValidate" :label-width="80">
                 <Form-item label="操作时间" prop="add_time">
-                    <Date-picker type="datetime" placeholder="选择日期和时间"  v-model="BuyItemsData.add_time" style="width: 180px"></Date-picker>
+                    <Date-picker type="datetime" placeholder="选择日期和时间" :options="options1"  v-model="BuyItemsData.add_time" style="width: 180px"></Date-picker>
                 </Form-item>
 
                 <Form-item label="选择项目" prop="select_item">
@@ -158,6 +158,11 @@
         },
         data () {
             return {
+                options1: {
+                    disabledDate (date) {
+                        return date && date.valueOf() > Date.now();
+                    }
+                },
                 loading: false,
                 buyItemsModel: false,
                 selectItem: [],

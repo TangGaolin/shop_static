@@ -9,7 +9,7 @@
 
             <Form ref="repayData" :model="repayData"  :label-width="80">
                 <Form-item label="操作时间" prop="add_time">
-                    <Date-picker type="datetime" placeholder="选择日期和时间"  v-model="add_time" style="width: 180px"></Date-picker>
+                    <Date-picker type="datetime" placeholder="选择日期和时间" :options = options1 :value= add_time style="width: 180px"></Date-picker>
                 </Form-item>
 
                 <h3 style="text-align: center">欠款订单</h3>
@@ -88,8 +88,12 @@
         data () {
             return {
                 showModel: false,
-
                 add_time: new Date(),
+                options1: {
+                    disabledDate (date) {
+                        return date && date.valueOf() > Date.now();
+                    }
+                },
                 repayData: {
                     add_time: "",
                     order_id: "",
