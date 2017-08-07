@@ -29,7 +29,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
         '/api': {
-            target: 'http://console.localdev.com',
+            target: 'http://shop.localdev.com',
             changeOrigin: true,
             logLevel: 'debug',
             pathRewrite: {
