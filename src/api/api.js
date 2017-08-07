@@ -160,3 +160,14 @@ export function getShopSideUsers(params) {
         data
     });
 }
+
+
+// 用户列表接口
+export function chargeGoods(params) {
+    const data = params
+    return fetch({
+        url:  process.env.API_ROOT + '/shop/chargeGoods',
+        method: 'post',
+        data
+    });
+}

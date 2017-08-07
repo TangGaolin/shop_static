@@ -81,7 +81,7 @@
                         render: (h, params) => {
                             return this.globalConfig.order_types[params.row.order_type]
                         },
-                        width: 85
+                        width: 100
                     },
                     {
                         title: '金 额',

@@ -1,7 +1,7 @@
 
 <template>
     <div>
-        <div v-if="row.order_info !== null">
+        <div v-if="row.order_type == 1">
             <Row class="expand-row" v-for="item in row.order_info" :key="item.item_id">
                 <Col span="6">
                     <span class="expand-key">项目名称：</span>
@@ -19,6 +19,24 @@
                 <Col span="6">
                     <span class="expand-key">销售折扣：</span>
                     <span class="expand-value">{{ item.discount }}</span>
+                </Col>
+            </Row>
+            <hr/>
+        </div>
+
+        <div v-if="row.order_type == 4">
+            <Row class="expand-row">
+                <Col span="6">
+                    <span class="expand-key">产品卡充值金额：</span>
+                    <span class="expand-value">{{ row.order_info }}</span>
+                </Col>
+                <Col span="6">
+                    <span class="expand-key">产品充值金额：</span>
+                    <span class="expand-value">{{ row.worth_money }}</span>
+                </Col>
+                <Col span="6">
+                    <span class="expand-key">充值折扣：</span>
+                    <span class="expand-value">{{ (row.worth_money / row.order_info * 10).toFixed(2)  }} </span>
                 </Col>
             </Row>
             <hr/>

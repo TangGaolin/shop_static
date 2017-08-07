@@ -11,7 +11,7 @@
 
 </template>
 <script>
-
+    import expandRow from './OrderInfoTableRow.vue'
     export default {
         props: {
             userOrders: Object,
@@ -24,6 +24,17 @@
                 limit: 10,
                 columns: [
                     {
+                        type: 'expand',
+                        width: 50,
+                        render: (h, params) => {
+                            return h(expandRow, {
+                                props: {
+                                    row: params.row
+                                }
+                            })
+                        }
+                    },
+                    {
                         title: '订单号',
                         key: 'order_id'
                     },
@@ -33,7 +44,7 @@
                         render: (h, params) => {
                             return this.globalConfig.order_types[params.row.order_type]
                         },
-                        width:85
+                        width: 100
                     },
                     {
                         title: '金 额',

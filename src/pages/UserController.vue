@@ -20,7 +20,13 @@
                         :empData = empData
                         :userInfo = userInfo
                 ></Recharge>
-                <Button type="ghost">产品卡充值</Button>
+
+                <ChargeGoods
+                        :currentUserData = currentUserData
+                        :empData = empData
+                        :userInfo = userInfo
+                ></ChargeGoods>
+
                 <BuyItems
                         :currentUserData = currentUserData
                         :empData = empData

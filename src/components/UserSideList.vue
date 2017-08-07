@@ -21,12 +21,13 @@
                 </p>
             </Panel>
             <Panel name="3" >
-                今日顾客 ( {{ sideUsers.today_user.length }} )
+                今日顾客 <Tag color="green" > {{ sideUsers.today_user && sideUsers.today_user.length }}  </Tag>
                 <p slot="content" v-for="user in sideUsers.today_user">
                     <Button type="text" size="large" @click="chooseUser(user.uid)"> {{user.user_name}} &nbsp; {{user.phone_no}}</Button>
                 </p>
             </Panel>
         </Collapse>
+
     </div>
 </template>
 <script>
@@ -38,7 +39,6 @@
         },
         data () {
             return {
-
                 sideUsers: {},
             }
         },
