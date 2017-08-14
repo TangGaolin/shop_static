@@ -162,11 +162,31 @@ export function getShopSideUsers(params) {
 }
 
 
-// 用户列表接口
+// 产品卡充值接口
 export function chargeGoods(params) {
     const data = params
     return fetch({
         url:  process.env.API_ROOT + '/shop/chargeGoods',
+        method: 'post',
+        data
+    });
+}
+
+// 获取产品列表接口
+export function getGoodsList(params) {
+    const data = params
+    return fetch({
+        url:  process.env.API_ROOT + '/shop/getGoodsList',
+        method: 'post',
+        data
+    });
+}
+
+// 购买产品
+export function buyGoods(params) {
+    const data = params
+    return fetch({
+        url:  process.env.API_ROOT + '/shop/buyGoods',
         method: 'post',
         data
     });

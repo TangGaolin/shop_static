@@ -33,7 +33,12 @@
                         :userInfo = userInfo
                 >
                 </BuyItems>
-                <Button type="ghost">购买产品</Button>
+                <BuyGoods
+                        :currentUserData = currentUserData
+                        :empData = empData
+                        :userInfo = userInfo
+                >
+                </BuyGoods>
 
                 <Repayment v-if = "currentUserData.debt > 0"
                         :currentUserData = currentUserData
@@ -62,7 +67,6 @@
 
                 <Tab-pane label="耗卡记录" name="used">
                     <UseOrderList :currentUserData = currentUserData
-                                  :userOrders = userOrders
                                   :useOrderList = useOrderList
                                   :globalConfig = globalConfig
                     >
@@ -84,7 +88,6 @@
         },
         data() {
             return {
-                orderList:[],
             }
         },
         computed: {

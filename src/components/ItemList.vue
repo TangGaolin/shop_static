@@ -202,7 +202,7 @@
             },
 
             changePage(page) {
-                this.cur_page = page
+                this.curPage = page
                 this.$store.dispatch('getUserItems', {
                     uid: this.currentUserData.uid,
                     cur_page: page,

@@ -24,6 +24,29 @@
             <hr/>
         </div>
 
+        <div v-if="row.order_type == 2">
+            <Row class="expand-row" v-for="item in row.order_info" :key="item.item_id">
+                <Col span="6">
+                    <span class="expand-key">产品名称：</span>
+                    <span class="expand-value">{{ item.good_name }}</span>
+                </Col>
+                <Col span="6">
+                    <span class="expand-key">产品数量：</span>
+                    <span class="expand-value">{{ item.num + " " + item.unit}} </span>
+                </Col>
+                <Col span="6">
+                    <span class="expand-key">金额：</span>
+                    <span class="expand-value">{{ item.sold_money }} 元</span>
+                </Col>
+
+                <Col span="6">
+                <span class="expand-key">折扣：</span>
+                <span class="expand-value">{{ item.discount }}</span>
+                </Col>
+            </Row>
+            <hr/>
+        </div>
+
         <div v-if="row.order_type == 4">
             <Row class="expand-row">
                 <Col span="6">

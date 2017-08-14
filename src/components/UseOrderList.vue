@@ -7,15 +7,12 @@
         </div>
     </div>
 
-
-
 </template>
 <script>
     import expandRow from './UseOrderInfoTableRow.vue'
     export default {
         components: { expandRow },
         props: {
-            userOrders: Object,
             useOrderList: Object,
             currentUserData: Object,
             globalConfig: Object

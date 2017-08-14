@@ -33,7 +33,7 @@
         box-shadow: 0 1px 1px rgba(0,0,0,.1);
     }
     .layout-body{
-        width: 1200px;
+        width: 80%;
         margin-left: auto;
         margin-right: auto;
         padding: 36px 0 88px;
