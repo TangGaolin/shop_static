@@ -159,8 +159,6 @@
         computed: {
             ...mapGetters([
                 'userInfo',
-                'userOrders',
-                'currentUserData',
                 'globalConfig',
             ])
         },
