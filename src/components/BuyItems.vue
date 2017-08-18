@@ -1,6 +1,7 @@
 <style>
     .short_input {
         width: 70px;
+        text-align: center;
     }
 </style>
 <template>
@@ -67,6 +68,7 @@
                             <Input v-model = item.sold_money class="short_input" size="small" @on-change="changeMoney(item.item_id)"></Input>
                         </Col>
                     </Row>
+                </Form-item>
 
 
                 </Form-item>

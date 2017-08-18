@@ -46,6 +46,14 @@
                         :userInfo = userInfo
                         :globalConfig = globalConfig
                 ></Repayment>
+
+                <ChangeItems
+                           :currentUserData = currentUserData
+                           :userItems = userItems
+                           :empData = empData
+                           :userInfo = userInfo
+                           :globalConfig = globalConfig
+                ></ChangeItems>
             </div>
 
             <Tabs value="items" >

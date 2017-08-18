@@ -7,7 +7,6 @@
 
 <template>
     <div>
-
         <div class="select-items" v-if="selectedItems.length > 0">
             <h3 style="text-align: center">已选择项目</h3>
             <Date-picker type="datetime" placeholder="选择日期和时间"  v-model="useItemTime" style="width: 180px" ></Date-picker>
@@ -54,7 +53,6 @@
             </p>
         </div>
 
-        <br/>
 
         <!-- 编辑耗卡功能 -->
         <Modal v-model="editItemModel" width="680">

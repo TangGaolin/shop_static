@@ -3,7 +3,7 @@ import Vue from 'vue'
 
 //添加员工组件
 Vue.component('UserSearch', require('./UserSearch.vue'))
-Vue.component('UserInfo', require('./UserInfo.vue'))
+Vue.component('UserInfo',  require('./UserInfo.vue'))
 Vue.component('AddUser', require('./AddUser.vue'))
 Vue.component('DataView', require('./DataViews.vue'))
 Vue.component('Recharge', require('./Recharge.vue'))
@@ -15,6 +15,7 @@ Vue.component('Repayment', require('./Repayment.vue'))
 Vue.component('UserSideList', require('./UserSideList.vue'))
 Vue.component('ChargeGoods', require('./ChargeGoods.vue'))
 Vue.component('BuyGoods', require('./BuyGoods.vue'))
+Vue.component('ChangeItems', require('./ChangeItems.vue'))
 
 
 

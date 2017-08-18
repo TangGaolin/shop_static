@@ -40,16 +40,11 @@
         },
         data() {
             return {
-                editItemModel: false,
-                curPage:1,
+                curPage: 1,
                 limit: 10,
                 select_item_ids:[],
-                useItemTime:"",
                 selectedItems:[],
-                currentItem:{},
-                ruleValidate: {
-
-                },
+                changeItems: {}, //需要退换的项目
                 columns: [
                     {
                         title: '项目名称',
@@ -94,21 +89,7 @@
                                             this.useItem(params.row)
                                         }
                                     }
-                                }, '耗卡'),
-                                h('Button', {
-                                    props: {
-                                        type: 'warning',
-                                        size: 'small'
-                                    },
-                                    style: {
-                                        marginRight: '5px'
-                                    },
-                                    on: {
-                                        click: () => {
-                                            this.changeItem(params.row)
-                                        }
-                                    }
-                                }, '退换')
+                                }, '耗卡')
                             ]) : "使用结束"
                         }
                     }
@@ -136,7 +117,6 @@
             },
 
             useItem(param) {
-                this.useItemTime = new Date()
                 if(this.select_item_ids.indexOf(param.id) < 0){
                     let item = {
                         order_id: param['order_id'],
@@ -156,10 +136,6 @@
                 }else{
                     this.$Message.error('请勿重复选择')
                 }
-            },
-
-            changeItem(param) {
-                console.log(param)
             }
 
         }
