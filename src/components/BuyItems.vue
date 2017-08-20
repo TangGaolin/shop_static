@@ -70,8 +70,6 @@
                     </Row>
                 </Form-item>
 
-
-                </Form-item>
                 <Form-item label="消费总计" >
                     <Tag type="dot" color="green">{{ BuyItemsData.itemsMoney }} 元</Tag>
                 </Form-item>

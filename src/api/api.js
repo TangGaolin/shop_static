@@ -191,3 +191,13 @@ export function buyGoods(params) {
         data
     });
 }
+
+// 退换功能
+export function changeItems(params) {
+    const data = params
+    return fetch({
+        url:  process.env.API_ROOT + '/shop/changeItems',
+        method: 'post',
+        data
+    });
+}
