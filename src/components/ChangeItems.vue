@@ -203,9 +203,6 @@
                         </Col>
                     </Row>
 
-                    <p style="color: blue;text-align: center">
-                    注: 销售人分配总金额 = 还款金额
-                    </p>
 
                 </div>
             </Form>
@@ -474,8 +471,7 @@
                         this.$Message.error(response.msg)
                     } else {
                         this.$Message.success('购买成功!')
-                        this.buyItemsModel = false
-
+                        this.showModel = false
                         this.$store.dispatch('loadUserDetail', {'uid': this.currentUserData.uid})
                     }
                 })
@@ -486,7 +482,20 @@
             },
 
             handleReset() {
-
+                this.changeItemsData = {
+                    select_items: [],
+                    select_items_ids:[],
+                    itemsMoney:0,
+                    selectedNewItems:[],
+                    newItemMoney:0,
+                    pay_emps:[],
+                    emp_ids:[],
+                    pay_cash: 0,
+                    pay_card: 0,
+                    pay_mobile: 0,
+                    use_balance: 0,
+                    change_fee: 0, //手续费
+                },
                 this.showModel = false
             },
 
