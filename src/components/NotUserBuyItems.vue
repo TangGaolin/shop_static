@@ -6,15 +6,15 @@
 </style>
 <template>
     <span>
-        <Button type="ghost" @click = "showBuyItemsModel('BuyItemsData')" >购买服务</Button>
+        <Button type="ghost" @click = "showBuyItemsModel('BuyItemsData')" >散客服务</Button>
         <Modal v-model="buyItemsModel" width="780" >
             <p slot="header" style="color:#f60;text-align:center;font-size: 18px">
                 <Icon type="cash" size="18"></Icon>
-                <span>购买服务 - {{currentUserData.user_name}} </span>
+                <span>购买服务 - 散客 </span>
             </p>
             <Form ref="BuyItemsData" :model="BuyItemsData" :rules="ruleValidate" :label-width="80">
                 <Form-item label="操作时间" prop="add_time">
-                    <Date-picker type="datetime" placeholder="选择日期和时间" :options="options1"  v-model="BuyItemsData.add_time" style="width: 180px"></Date-picker>
+                    <Date-picker type="datetime" placeholder="选择日期和时间" :options="options1"  v-model="add_time" style="width: 180px"></Date-picker>
                 </Form-item>
 
                 <Form-item label="选择项目" prop="select_item">
@@ -42,6 +42,9 @@
                             单价（元）
                         </Col>
                         <Col span="4">
+                            手工（元）
+                        </Col>
+                        <Col span="4">
                             次数（次）
                         </Col>
                         <Col span="4">
@@ -57,6 +60,9 @@
                         </Col>
                         <Col span="4">
                             <Tag type="border" color="green">{{item.price}}</Tag>
+                        </Col>
+                        <Col span="4">
+                            <Tag type="border" color="green">{{item.emp_fee}}</Tag>
                         </Col>
                         <Col span="4">
                             <Input v-model = item.times class="short_input" size="small" @on-change="changeTimes(item.item_id)"></Input>
@@ -76,11 +82,6 @@
                 <hr/>
                 <br/>
 
-                <Form-item label="使用余额" prop="pay_cash">
-                    <Input v-model="BuyItemsData.pay_balance" @on-change = "getPayMoney" style="width: 180px"></Input>
-                    &nbsp; &nbsp;
-                    <Tag type="dot" color="yellow">{{currentUserData.balance}}元可用</Tag>
-                </Form-item>
 
                 <Row>
                     <Col span="6">
@@ -118,23 +119,36 @@
                 <br/>
                 <hr/>
                 <br/>
-                <Form-item label="销售人" prop="empRate">
+                <Form-item label="销售人">
                     <Select v-model="empRate" multiple style="width:360px" @on-change="setMoneyRate">
                         <Option v-for="item in empData" :value="item.emp_id" :key="item.emp_id">{{ item.emp_name }}</Option>
                     </Select>
                 </Form-item>
 
                 <Row>
-                    <Col span="8" v-for="item in BuyItemsData.pay_emps" :key="item.emp_id">
-                        <Form-item :label="item.emp_name">
-                            <Input v-model="item.money"></Input>
+                    <Col span="8" v-for="pay_emp in BuyItemsData.pay_emps" :key="pay_emp.emp_id">
+                        <Form-item :label="pay_emp.emp_name">
+                            <Input v-model="pay_emp.money"></Input>
                         </Form-item>
                     </Col>
                 </Row>
 
-                <p style="color: blue;text-align: center">
-                    注: 销售人分配总金额 = 实收金额
-                </p>
+                <br/>
+
+                <Form-item label="服务人">
+                    <Select v-model="BuyItemsData.server_emp_ids" multiple style="width:360px" @on-change="setServerMoneyRate">
+                        <Option v-for="item in empData" :value="item.emp_id" :key="item.emp_id">{{ item.emp_name }}</Option>
+                    </Select>
+                </Form-item>
+
+                <Row>
+                    <Col span="8" v-for="item in BuyItemsData.server_emps" :key="item.emp_id">
+                        <Form-item :label="item.emp_name">
+                            <Input v-model="item.fee" icon="social-usd-outline"></Input>
+                            <Input v-model="item.xiaohao" icon="coffee"></Input>
+                        </Form-item>
+                    </Col>
+                </Row>
 
                 <br/>
             </Form>
@@ -152,7 +166,6 @@
     import { formatDate } from '../utils/utils'
     export default {
         props: {
-            currentUserData: Object,
             empData: Array,
             userInfo: Object
         },
@@ -167,6 +180,7 @@
                 buyItemsModel: false,
                 selectItem: [],
                 items:[],
+                add_time: new Date(),
                 BuyItemsData: {
                     add_time: "",
                     selectedItems: [],
@@ -175,7 +189,9 @@
                     pay_cash: 0,
                     pay_card: 0,
                     pay_mobile: 0,
-                    pay_emps:[]
+                    pay_emps:[],
+                    server_emps:[],
+                    server_emp_ids:[]
                 },
                 empRate:[],
                 payMoney: "0.00",
@@ -210,6 +226,7 @@
                 this.selectItem.forEach((item) => {
                     let itemObj = JSON.parse(item)
                     itemObj.discount = 10.00 //初始化
+                    itemObj.times = 1
                     itemObj.sold_money = itemObj.price * itemObj.times
                     this.BuyItemsData.itemsMoney += Number(itemObj.sold_money)
                     this.BuyItemsData.selectedItems.push(itemObj)
@@ -268,6 +285,22 @@
                 })
             },
 
+            setServerMoneyRate() {
+                this.BuyItemsData.server_emps = []
+                this.empData.forEach((item) => {
+                    if(this.BuyItemsData.server_emp_ids.indexOf(item.emp_id) >= 0) {
+                        this.BuyItemsData.server_emps.push(
+                            {
+                                "emp_id": item.emp_id,
+                                "emp_name": item.emp_name,
+                                "fee" : 0,
+                                "xiaohao": 0
+                            }
+                        )
+                    }
+                })
+            },
+
             buyItemsSubmit(name) {
                 this.$refs[name].validate((valid) => {
                     if (valid) {
@@ -296,14 +329,12 @@
                             })
                             return
                         }
-                        this.BuyItemsData.add_time = formatDate(this.BuyItemsData.add_time,"yyyy-MM-dd HH:mm:ss")
-                        this.BuyItemsData.uid = this.currentUserData.uid
+                        this.BuyItemsData.add_time = formatDate(this.add_time,"yyyy-MM-dd HH:mm:ss")
+                        this.BuyItemsData.uid = 0 //散客id为0
                         this.BuyItemsData.shop_id = this.userInfo.shop_id
                         buyItems(this.BuyItemsData).then((response) => {
                             if (0 !== response.statusCode) {
                                 this.$Message.error(response.msg)
-                                //重置时间
-                                this.BuyItemsData.add_time = new Date()
                             } else {
                                 this.$Message.success('购买成功!')
                                 this.buyItemsModel = false
@@ -318,7 +349,6 @@
             },
 
             handleReset () {
-                this.BuyItemsData.add_time = new Date()
                 this.BuyItemsData.selectedItems = []
                 this.BuyItemsData.pay_balance = 0
                 this.BuyItemsData.pay_cash = 0
@@ -330,7 +360,7 @@
 
             showBuyItemsModel() {
                 this.buyItemsModel = true
-                this.BuyItemsData.add_time = new Date()
+                this.add_time = new Date()
             }
         }
     }

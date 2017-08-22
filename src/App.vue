@@ -20,12 +20,12 @@ export default {
 
 <style>
     #app {
-      position: absolute;
-      top: -1px;
-      left: -1px;
-      bottom: 0px;
-      width: 100%;
-      font-size: 12px;
+        position: absolute;
+        top: -1px;
+        left: -1px;
+        bottom: 0px;
+        width: 100%;
+        font-size: 12px;
     }
     .content {
         width: auto;

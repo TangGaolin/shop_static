@@ -1,6 +1,6 @@
 <template>
     <span>
-        <Button type="ghost" icon="android-add" @click = "showNewUserModel('newUserData')" size = "large">新建会员</Button>
+        <Button type="ghost" icon="android-add" @click = "showNewUserModel('newUserData')">新建会员</Button>
         <Modal v-model="newUserModel" width="480" >
             <p slot="header" style="color:#f60;text-align:center" class = "red" >
                 <Icon type="android-add"></Icon>

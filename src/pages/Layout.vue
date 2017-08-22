@@ -57,14 +57,12 @@
         height: 100%;
         border-right: 1px solid #ccc;
     }
-
     .function-button {
         margin-top: 20px;
         text-align: right;
-    }
-    .function-button button{
         margin-right: 10px;
     }
+
 
 
 </style>
@@ -96,14 +94,30 @@
                         <Col span="19">
 
                         <div class = "function-button">
-                            <Button type="ghost" size="large" @click="goDashboard">主页控制台</Button>
+                            <Button type="ghost" @click="goDashboard">主页控制台</Button>
 
                             <AddUser :empData = empData
                                      :shopConfig = userInfo
                             ></AddUser>
-                            <Button type="ghost" size="large">散客交易</Button>
+                            <!--<BuyItems-->
+                                    <!--:currentUserData = currentUserData-->
+                                    <!--:empData = empData-->
+                                    <!--:userInfo = userInfo-->
+                            <!--&gt;-->
+                            <!--</BuyItems>-->
+                            <NotUserBuyItems
+                                    :empData = empData
+                                    :userInfo = userInfo
+                            >
+                            </NotUserBuyItems>
+                            <NotUserBuyGoods
+                                    :empData = empData
+                                    :userInfo = userInfo
+                            >
+                            </NotUserBuyGoods>
+                        </Poptip>
 
-                            <Button type="ghost" size="large" @click="goCheckOrder">交班审核</Button>
+                            <Button type="ghost"  @click="goCheckOrder">交班审核</Button>
                         </div>
 
                         <transition name="fade" mode="out-in">
@@ -129,7 +143,10 @@
         data() {
             return {
                 empData: [],
-                empTotal:0
+                empTotal:0,
+                currentUserData:{
+
+                }
             }
         },
         computed: {
@@ -168,7 +185,8 @@
             },
             goCheckOrder() {
                 this.$router.push('/check-order')
-            }
+            },
+
         }
     }
 </script>

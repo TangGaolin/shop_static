@@ -16,6 +16,8 @@ Vue.component('UserSideList', require('./UserSideList.vue'))
 Vue.component('ChargeGoods', require('./ChargeGoods.vue'))
 Vue.component('BuyGoods', require('./BuyGoods.vue'))
 Vue.component('ChangeItems', require('./ChangeItems.vue'))
+Vue.component('NotUserBuyGoods', require('./NotUserBuyGoods.vue'))
+Vue.component('NotUserBuyItems', require('./NotUserBuyItems.vue'))
 
 
 

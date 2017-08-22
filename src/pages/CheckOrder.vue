@@ -113,7 +113,7 @@
                         render: (h, params) => {
                             return h(expandRow, {
                                 props: {
-                                    rows: params.row.items_info
+                                    rows: params.row
                                 }
                             })
                         }
@@ -137,9 +137,15 @@
                         key: 'items_info',
                         render: (h, params) => {
                             let item_names = [];
-                            params.row.items_info.forEach((item) => {
-                                item_names.push(item.item_name)
-                            })
+                            if(0 === params.row.uid){
+                                params.row.items_info.use_items.forEach((item) => {
+                                    item_names.push(item.item_name)
+                                })
+                            }else{
+                                params.row.items_info.forEach((item) => {
+                                    item_names.push(item.item_name)
+                                })
+                            }
                             return item_names.join(',')
                         }
                     },

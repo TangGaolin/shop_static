@@ -28,7 +28,7 @@
                         render: (h, params) => {
                             return h(expandRow, {
                                 props: {
-                                    rows: params.row.items_info
+                                    rows: params.row
                                 }
                             })
                         }
