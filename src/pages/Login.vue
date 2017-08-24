@@ -48,6 +48,18 @@
                 </i-form>
             </div>
         </div>
+
+        <Modal
+                v-model="showModel"
+                title="选择门店"
+                @on-ok="ok"
+                @on-cancel="cancel">
+
+            <Radio-group v-model="selectShop">
+                <Radio v-for="shop in loginInfo.shop_list" :key = "shop.shop_id" :label="JSON.stringify(shop)">{{ shop.shop_name }}</Radio>
+            </Radio-group>
+
+        </Modal>
     </div>
 </template>
 
@@ -56,47 +68,71 @@ import { mapGetters } from 'vuex'
 
 export default {
     data() {
-            return {
-                formInline: {
-                    user: '',
-                    password: '',
-                },
-                ruleInline: {
-                    user: [{
-                        required: true,
-                        message: '请填写用户名',
-                        trigger: 'blur'
-                    }],
-                    password: [{
-                        required: true,
-                        message: '请填写密码',
-                        trigger: 'blur'
-                    }, {
-                        type: 'string',
-                        min: 6,
-                        message: '密码长度不能小于6位',
-                        trigger: 'blur'
-                    }]
-                }
-            }
-        },
-        methods: {
-            handleSubmit(name) {
-                this.$refs[name].validate((valid) => {
-                    if (valid) {
-                        this.$store.dispatch('loginAction', {
-                            user: this.formInline.user,
-                            password: this.formInline.password
-                        }).then(() => {
-                          // 登录成功
-                          this.$router.push('/')
-                        })
-                    } else {
-                        this.$Message.error('表单验证错误!')
-                    }
-                })
+        return {
+            showModel:false,
+            loginInfo: {},
+            selectShop: "",
+            formInline: {
+                user: '',
+                password: '',
+            },
+            ruleInline: {
+                user: [{
+                    required: true,
+                    message: '请填写用户名',
+                    trigger: 'blur'
+                }],
+                password: [{
+                    required: true,
+                    message: '请填写密码',
+                    trigger: 'blur'
+                }, {
+                    type: 'string',
+                    min: 6,
+                    message: '密码长度不能小于6位',
+                    trigger: 'blur'
+                }]
             }
         }
+    },
+    methods: {
+        handleSubmit(name) {
+            this.$refs[name].validate((valid) => {
+                if (valid) {
+                    this.$store.dispatch('loginAction', {
+                        user: this.formInline.user,
+                        password: this.formInline.password
+                    }).then((response) => {
+                      // 登录成功
+                        if(0 === response.data.shop_id) {
+                            this.loginInfo = response.data
+                            this.selectShop = JSON.stringify(this.loginInfo.shop_list[0])
+                            this.showModel = true
+                        }else{
+                            this.$router.push('/')
+                        }
+                    })
+                } else {
+                    this.$Message.error('表单验证错误!')
+                }
+            })
+        },
+        ok () {
+            let shop_info = JSON.parse(this.selectShop)
+            this.loginInfo.shop_id = shop_info.shop_id
+            this.loginInfo.shop_name = shop_info.shop_name
+            console.log(this.loginInfo)
+            this.$store.dispatch('updateAccountAction', this.loginInfo).then(() => {
+                this.$router.push('/')
+            })
+        },
+        cancel () {
+            this.$store.dispatch('logoutAction',{}).then(() => {
+                // 退出成功
+                this.$router.push('/login')
+            })
+        }
+    }
 }
 
 </script>
