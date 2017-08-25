@@ -201,3 +201,13 @@ export function changeItems(params) {
         data
     });
 }
+
+// 修改密码功能
+export function resetPassword(params) {
+    const data = params
+    return fetch({
+        url:  process.env.API_ROOT + '/shop/resetPassword',
+        method: 'post',
+        data
+    });
+}

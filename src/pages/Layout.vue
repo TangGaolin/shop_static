@@ -31,6 +31,7 @@
         height: 60px;
         background: #fff;
         box-shadow: 0 1px 1px rgba(0,0,0,.1);
+        text-align: center;
     }
     .layout-body{
         width: 80%;
@@ -73,8 +74,8 @@
                 <a href="/">德美店务收银系统</a>
             </div>
             <div class='layout-account'  v-if="userInfo !== null">
-                 {{userInfo.shop_name}} * {{userInfo.emp_name}} |
-                 <a href="javascript:void(0);" v-on:click="logout">退出</a>
+                 {{userInfo.shop_name}} *
+                <CashierAccount :userInfo = userInfo></CashierAccount>
             </div>
         </div>
 
@@ -93,18 +94,12 @@
                         </Col>
                         <Col span="19">
 
-                        <div class = "function-button">
+                        <div class = "function-button" v-if="userInfo !== null">
                             <Button type="ghost" @click="goDashboard">主页控制台</Button>
 
                             <AddUser :empData = empData
                                      :shopConfig = userInfo
                             ></AddUser>
-                            <!--<BuyItems-->
-                                    <!--:currentUserData = currentUserData-->
-                                    <!--:empData = empData-->
-                                    <!--:userInfo = userInfo-->
-                            <!--&gt;-->
-                            <!--</BuyItems>-->
                             <NotUserBuyItems
                                     :empData = empData
                                     :userInfo = userInfo
@@ -158,13 +153,6 @@
             this.getEmployeeList()
         },
         methods: {
-            logout() {
-                this.$store.dispatch('logoutAction',{}).then(() => {
-                    // 退出成功
-                    this.$router.push('/login')
-                })
-            },
-
             getEmployeeList() {
                 getEmployeeList({
                     is_server: 1,
