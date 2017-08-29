@@ -14,10 +14,13 @@
         data() {
             return {
                 chartData: {
+                    columns: ['day', 'yeji', 'xiaohao'],
+                    rows: []
                 },
                 chartSettings: {
+
                 },
-                viewData: []
+                viewData:[]
             }
         },
 
@@ -27,38 +30,29 @@
             ])
         },
         created: function () {
-
             getShopDataView({shop_id: this.userInfo.shop_id}).then((response) => {
                 if (0 !== response.statusCode) {
                     this.$Message.error(response.msg)
-                    //重置时间
-                    this.rechargeData.add_time = new Date()
                 } else {
-                    response.data.forEach((items) => {
-                        var day_data = {
-                            '日期': items.day,
-                            '业绩': items.yeji,
-                            '消耗': items.xiaohao,
+                    this.viewData = response.data
+                    this.chartData = {
+                        columns: ['day', 'yeji', 'xiaohao'],
+                        rows: this.viewData
+                    }
+                    this.chartSettings = {
+                        dimension: ['day'],
+                        metrics: ['yeji', 'xiaohao'],
+                        yAxisName: ['业绩', '消耗'],
+                        yAxisType: ['KMB'],
+                        area: false,
+                        labelMap: {
+                            day: '日期',
+                            xiaohao: '消耗',
+                            yeji: '业绩'
                         }
-                        this.viewData.push(day_data)
-                    });
+                    }
                 }
             })
-
-            this.chartData = {
-                columns: ['日期', '业绩', '消耗'],
-                rows: this.viewData
-            }
-            this.chartSettings = {
-                dimension: ['日期'],
-                metrics: [ '业绩', '消耗'],
-                axisSite: {
-                    right: ['占比']
-                },
-                yAxisType: ['KMB', 'normal'],
-                yAxisName: ['业绩', '消耗'],
-                area: true
-            }
         },
         methods: {
 
