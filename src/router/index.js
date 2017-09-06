@@ -4,11 +4,11 @@ import Router from 'vue-router'
 
 import store from '../store'
 
-const Login =           resolve  => require(['../pages/Login'], resolve)
-const Layout =          resolve  => require(['../pages/Layout'], resolve)
-const dashboard =       resolve  => require(['../pages/dashboard'], resolve)
+const Login          =  resolve  => require(['../pages/Login'], resolve)
+const Layout         =  resolve  => require(['../pages/Layout'], resolve)
+const dashboard      =  resolve  => require(['../pages/dashboard'], resolve)
 const UserController =  resolve  => require(['../pages/UserController'], resolve)
-const CheckOrder =  resolve  => require(['../pages/CheckOrder'], resolve)
+const CheckOrder     =  resolve  => require(['../pages/CheckOrder'], resolve)
 
 Vue.use(Router)
 

@@ -26,24 +26,23 @@
 
         <Row v-if="rows.uid === 0" class="expand-row" v-for="row in rows.items_info.use_items" :key="row.id">
             <Col span="8">
-            <span class="expand-key">项目名称：</span>
-            <span class="expand-value">{{ row.item_name }}</span>
+                <span class="expand-key">项目名称：</span>
+                <span class="expand-value">{{ row.item_name }}</span>
             </Col>
             <Col span="8">
-            <span class="expand-key">消耗次数：</span>
-            <span class="expand-value">{{ row.times }} 次</span>
+                <span class="expand-key">消耗次数：</span>
+                <span class="expand-value">{{ row.times }} 次</span>
             </Col>
             <Col span="8">
-            <span class="expand-key">消耗单价：</span>
-            <span class="expand-value">{{ row.sold_money }} 元</span>
+                <span class="expand-key">消耗单价：</span>
+                <span class="expand-value">{{ row.sold_money }} 元</span>
             </Col>
-
         </Row>
 
         <Row v-if="rows.uid === 0" class="expand-row" >
             <Col span="24">
             <span class="expand-key">分配详情：</span>
-            <span class="expand-value" v-for="emp in rows.items_info.server_emps">
+            <span class="expand-value" v-for="emp in rows.items_info.server_emps" :key="emp.id">
                     {{ emp.emp_name }} 手工:{{ emp.fee }} 消耗: {{ emp.xiaohao }} &nbsp;&nbsp;&nbsp;&nbsp;
                 </span>
             </Col>
