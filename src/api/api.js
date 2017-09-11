@@ -11,27 +11,27 @@ export function getConfig(params) {
 }
 
 export function login(params) {
-	const data = params
-	return fetch({
-		url:  process.env.API_ROOT + '/shop/login',
-		method: 'post',
-		data
-	});
+    const data = params
+    return fetch({
+        url:  process.env.API_ROOT + '/shop/login',
+        method: 'post',
+        data
+    });
 }
 
 export function logout(params) {
-	const data = params
-	return fetch({
-		url:  process.env.API_ROOT + '/shop/logout',
-		method: 'post',
-		data
-	});
+    const data = params
+    return fetch({
+        url:  process.env.API_ROOT + '/shop/logout',
+        method: 'post',
+        data
+    });
 }
 
 export function getEmployeeList(params) {
     const data = params
     return fetch({
-        url:  process.env.API_ROOT + '/shop/getEmployeeList',
+        url:  process.env.API_ROOT + '/shop/getServerEmpList',
         method: 'post',
         data
     });

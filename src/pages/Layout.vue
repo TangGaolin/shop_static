@@ -156,7 +156,8 @@
             getEmployeeList() {
                 getEmployeeList({
                     is_server: 1,
-                    shop_id: this.userInfo.shop_id
+                    shop_id: this.userInfo.shop_id,
+                    limit: 100
                 }).then((response) => {
                     if(0 !== response.statusCode) {
                         this.$Message.error(response.msg)
