@@ -307,7 +307,16 @@
                             } else {
                                 this.$Message.success('购买成功!')
                                 this.buyItemsModel = false
-                                this.$refs[name].resetFields()
+                                this.BuyItemsData = {
+                                    add_time: "",
+                                    selectedItems: [],
+                                    itemsMoney: 0,
+                                    pay_balance: 0,
+                                    pay_cash: 0,
+                                    pay_card: 0,
+                                    pay_mobile: 0,
+                                    pay_emps:[]
+                                }
                                 this.$store.dispatch('loadUserDetail', {'uid': this.currentUserData.uid})
                             }
                         })

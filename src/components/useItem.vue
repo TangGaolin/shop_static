@@ -9,7 +9,7 @@
     <div>
         <div class="select-items" v-if="selectedItems.length > 0">
             <h3 style="text-align: center">已选择项目</h3>
-            <Date-picker type="datetime" placeholder="选择日期和时间"  v-model="useItemTime" style="width: 180px" ></Date-picker>
+            &nbsp;&nbsp;操作日期：<Date-picker type="datetime" placeholder="选择日期和时间"  v-model="useItemTime" style="width: 180px" ></Date-picker>
             <Row style="border-top: 1px solid #ccc;border-bottom: 1px solid #ccc;font-weight: bolder;text-align: center">
                 <Col span="4">
                 项目名称

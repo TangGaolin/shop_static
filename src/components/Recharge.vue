@@ -175,7 +175,6 @@
                     return
                 }
 
-
                 this.rechargeData.add_time = formatDate(this.add_time,"yyyy-MM-dd HH:mm:ss")
                 this.rechargeData.uid = this.currentUserData.uid
                 this.rechargeData.shop_id = this.userInfo.shop_id
