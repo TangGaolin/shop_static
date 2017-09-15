@@ -152,10 +152,10 @@ export function repay(params) {
 }
 
 // 用户列表接口
-export function getShopSideUsers(params) {
+export function getTodayUsers(params) {
     const data = params
     return fetch({
-        url:  process.env.API_ROOT + '/shop/getShopSideUsers',
+        url:  process.env.API_ROOT + '/shop/getTodayUsers',
         method: 'post',
         data
     });
@@ -211,3 +211,26 @@ export function resetPassword(params) {
         data
     });
 }
+
+//确认顾客到店
+export function checkUserOrderTime(params) {
+    const data = params
+    return fetch({
+        url:  process.env.API_ROOT + '/shop/checkUserOrderTime',
+        method: 'post',
+        data
+    });
+}
+
+//获取预约顾客列表
+export function getOrderUser(params) {
+    const data = params
+    return fetch({
+        url:  process.env.API_ROOT + '/shop/getOrderUser',
+        method: 'post',
+        data
+    });
+}
+
+
+

@@ -1,6 +1,17 @@
-
 <template>
     <div>
+        <!--充值-->
+        <div v-if="row.order_type == 0">
+            <Row class="expand-row">
+                <Col span="6">
+                    <span class="expand-key">充值金额：</span>
+                    <span class="expand-value">{{ row.worth_money }}</span>
+                </Col>
+            </Row>
+            <hr/>
+        </div>
+
+        <!--购买服务-->
         <div v-if="row.order_type == 1">
             <Row class="expand-row" v-for="item in row.order_info" :key="item.item_id">
                 <Col span="6">
@@ -23,7 +34,7 @@
             </Row>
             <hr/>
         </div>
-
+        <!--购买产品-->
         <div v-if="row.order_type == 2">
             <Row class="expand-row" v-for="item in row.order_info" :key="item.item_id">
                 <Col span="6">
@@ -47,6 +58,18 @@
             <hr/>
         </div>
 
+        <!--还款-->
+        <div v-if="row.order_type == 3">
+            <Row class="expand-row">
+                <Col span="6">
+                    <span class="expand-key">还款金额：</span>
+                    <span class="expand-value">{{ row.pay_money }}</span>
+                </Col>
+            </Row>
+            <hr/>
+        </div>
+
+        <!--产品卡充值-->
         <div v-if="row.order_type == 4">
             <Row class="expand-row">
                 <Col span="6">
@@ -65,6 +88,7 @@
             <hr/>
         </div>
 
+        <!--退款 或者 换购-->
         <div v-if="row.order_type == 5 || row.order_type == 6">
             <Row class="expand-row" v-for="item in row.order_info.select_items" :key="item.item_id">
                 <Col span="6">
@@ -86,6 +110,7 @@
                 </Col>
             </Row>
             <hr/>
+            <!-- 换购信息 -->
             <div v-if="row.order_type == 6">
                 <Row class="expand-row" v-for="item in row.order_info.select_new_items" :key="item.item_id">
                     <Col span="6">
@@ -110,17 +135,40 @@
             </div>
 
         </div>
-
-        <div v-if="row.pay_balance > 0">
+        <!--支付方式-->
+        <div style="font-weight: bolder">
             <Row class="expand-row">
-                <Col span="6" offset="12">
-                    <span class="expand-key">卡扣金额：</span>
+                <Col span="6">
+                    <span class="expand-key">现金支付：</span>
+                    <span class="expand-value">{{ row.pay_cash }}</span>
+                </Col>
+                <Col span="6">
+                    <span class="expand-key">银行卡支付：</span>
+                    <span class="expand-value">{{ row.pay_card }}</span>
+                </Col>
+                <Col span="6">
+                    <span class="expand-key">扫码支付：</span>
+                    <span class="expand-value">{{ row.pay_mobile }}</span>
+                </Col>
+                <Col span="6" v-if="row.debt > 0"  style="color: red">
+                    <span class="expand-key">欠款金额：</span>
+                    <span class="expand-value">{{ row.debt }}</span>
+                </Col>
+                <Col span="6" v-if="row.pay_balance > 0">
+                    <span class="expand-key">会员卡金额：</span>
                     <span class="expand-value">{{ row.pay_balance }}</span>
                 </Col>
+                <Col span="6" v-if="row.use_good_money">
+                    <span class="expand-key">产品卡金额：</span>
+                    <span class="expand-value">{{ row.use_good_money }}</span>
+                </Col>
+
             </Row>
             <hr/>
         </div>
 
+
+        <!--员工分配-->
         <div>
             <Row class="expand-row" v-for="emp in row.emp_info" :key="emp.emp_id">
                 <Col span="6">
