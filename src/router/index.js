@@ -48,7 +48,6 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
     var account = store.state.account
-    console.log(store.state.account)
 
     if(to.path === '/login') {
         return next()

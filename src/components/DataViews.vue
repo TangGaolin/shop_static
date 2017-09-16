@@ -100,11 +100,10 @@
                     xiaohao_sum: 0
                 }
                 let currentDay = formatDate(new Date(), "dd")
-                console.log(currentDay)
                 this.viewData.forEach((item) => {
                     this.shopDataView.yeji_sum += Number(item.yeji)
                     this.shopDataView.xiaohao_sum += Number(item.xiaohao)
-                    if(currentDay == item.day) {
+                    if(currentDay === item.day) {
                         this.shopDataView.yeji_today = item.yeji
                         this.shopDataView.xiaohao_today = item.xiaohao
                     }
