@@ -14,7 +14,7 @@
             </p>
             <Form ref="BuyItemsData" :model="BuyItemsData" :rules="ruleValidate" :label-width="80">
                 <Form-item label="操作时间" prop="add_time">
-                    <Date-picker type="datetime" placeholder="选择日期和时间" :options="options1"  v-model="BuyItemsData.add_time" style="width: 180px"></Date-picker>
+                    <Date-picker type="datetime" placeholder="选择日期和时间" :options="options1"  v-model="add_time" style="width: 180px"></Date-picker>
                 </Form-item>
 
                 <Form-item label="选择项目" prop="select_item">
@@ -163,6 +163,7 @@
                         return date && date.valueOf() > Date.now();
                     }
                 },
+                add_time: "",
                 loading: false,
                 buyItemsModel: false,
                 selectItem: [],
@@ -283,6 +284,13 @@
                             this.$Message.error('收银金额大于充值金额，请认真输入!')
                             return
                         }
+
+                        //余额使用规则
+                        if(this.BuyItemsData.pay_balance > this.currentUserData.balance) {
+                            this.$Message.error('余额使用不正确！')
+                            return
+                        }
+
                         // 销售人金额分配不能大于实收金额
                         let emps_sum = 0
                         this.BuyItemsData.pay_emps.forEach((item) => {
@@ -296,14 +304,13 @@
                             })
                             return
                         }
-                        this.BuyItemsData.add_time = formatDate(this.BuyItemsData.add_time,"yyyy-MM-dd HH:mm:ss")
+
+                        this.BuyItemsData.add_time = formatDate(this.add_time, "yyyy-MM-dd HH:mm:ss")
                         this.BuyItemsData.uid = this.currentUserData.uid
                         this.BuyItemsData.shop_id = this.userInfo.shop_id
                         buyItems(this.BuyItemsData).then((response) => {
                             if (0 !== response.statusCode) {
                                 this.$Message.error(response.msg)
-                                //重置时间
-                                this.BuyItemsData.add_time = new Date()
                             } else {
                                 this.$Message.success('购买成功!')
                                 this.buyItemsModel = false
@@ -326,20 +333,22 @@
                 })
             },
 
-            handleReset () {
-                this.BuyItemsData.add_time = new Date()
-                this.BuyItemsData.selectedItems = []
-                this.BuyItemsData.pay_balance = 0
-                this.BuyItemsData.pay_cash = 0
-                this.BuyItemsData.pay_card = 0
-                this.BuyItemsData.pay_mobile = 0
-                this.BuyItemsData.itemsMoney = 0
-                this.BuyItemsData.pay_emps = []
+            handleReset() {
+                this.BuyItemsData = {
+                    add_time: "",
+                    selectedItems: [],
+                    itemsMoney: 0,
+                    pay_balance: 0,
+                    pay_cash: 0,
+                    pay_card: 0,
+                    pay_mobile: 0,
+                    pay_emps:[]
+                }
             },
 
             showBuyItemsModel() {
                 this.buyItemsModel = true
-                this.BuyItemsData.add_time = new Date()
+                this.add_time = new Date()
             }
         }
     }
