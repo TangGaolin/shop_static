@@ -103,7 +103,7 @@
                 this.viewData.forEach((item) => {
                     this.shopDataView.yeji_sum += Number(item.yeji)
                     this.shopDataView.xiaohao_sum += Number(item.xiaohao)
-                    if(currentDay === item.day) {
+                    if(currentDay == item.day) {
                         this.shopDataView.yeji_today = item.yeji
                         this.shopDataView.xiaohao_today = item.xiaohao
                     }
