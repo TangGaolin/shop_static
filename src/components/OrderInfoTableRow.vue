@@ -13,7 +13,7 @@
 
         <!--购买服务-->
         <div v-if="row.order_type == 1">
-            <Row class="expand-row" v-for="item in row.order_info" :key="item.item_id">
+            <Row class="expand-row" v-for="(item, index) in row.order_info" :key="index">
                 <Col span="6">
                     <span class="expand-key">项目名称：</span>
                     <span class="expand-value">{{ item.item_name }}</span>
@@ -36,7 +36,7 @@
         </div>
         <!--购买产品-->
         <div v-if="row.order_type == 2">
-            <Row class="expand-row" v-for="item in row.order_info" :key="item.item_id">
+            <Row class="expand-row" v-for="(item, index) in row.order_info" :key="item.index">
                 <Col span="6">
                     <span class="expand-key">产品名称：</span>
                     <span class="expand-value">{{ item.good_name }}</span>
@@ -92,23 +92,27 @@
         <div v-if="row.order_type == 5 || row.order_type == 6">
             <Row class="expand-row" v-for="item in row.order_info.select_items" :key="item.item_id">
                 <Col span="6">
-                <span class="expand-key">退项目名称：</span>
-                <span class="expand-value">{{ item.item_name }}</span>
+                    <span class="expand-key">退项目名称：</span>
+                    <span class="expand-value">{{ item.item_name }}</span>
                 </Col>
                 <Col span="6">
-                <span class="expand-key">退项目次数：</span>
-                <span class="expand-value">{{ item.change_times }} 次</span>
+                    <span class="expand-key">退项目次数：</span>
+                    <span class="expand-value">{{ item.change_times }} 次</span>
                 </Col>
                 <Col span="6">
-                <span class="expand-key">项目金额：</span>
-                <span class="expand-value">{{ item.change_money }} 元</span>
+                    <span class="expand-key">项目金额：</span>
+                    <span class="expand-value">{{ item.change_money }} 元</span>
                 </Col>
-
+            </Row>
+            <hr/>
+            <Row class="expand-row">
                 <Col span="6">
                     <span class="expand-key">手续费：</span>
                     <span class="expand-value">{{ row.order_info.change_fee }}</span>
                 </Col>
             </Row>
+
+
             <hr/>
             <!-- 换购信息 -->
             <div v-if="row.order_type == 6">

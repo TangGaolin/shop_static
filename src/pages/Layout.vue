@@ -1,6 +1,6 @@
 <style scoped>
     .layout{
-        border-top: 5px solid #3091f2;;
+        border-top: 3px solid #ccc;
         background: #e7e8eb;
         position: relative;
         border-radius: 4px;
@@ -15,7 +15,6 @@
         left: 100px;
         font-size: 30px;
         font-weight: bolder;
-        color: #b3b6b7;
     }
     .layout-account{
         width: 300px;

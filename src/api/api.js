@@ -232,5 +232,14 @@ export function getOrderUser(params) {
     });
 }
 
+//根据order_id 和 单据类型 获取单据详情
+export function getOrderInfo(params) {
+    const data = params
+    return fetch({
+        url:  process.env.API_ROOT + '/shop/getOrderInfo',
+        method: 'post',
+        data
+    });
+}
 
 

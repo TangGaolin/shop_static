@@ -81,7 +81,7 @@
                         render: (h, params) => {
                             return this.globalConfig.order_types[params.row.order_type]
                         },
-                        width: 100
+                        width: 90
                     },
                     {
                         title: '金 额',
@@ -104,6 +104,22 @@
                     {
                         title: '结算时间',
                         key: 'add_time'
+                    },
+                    {
+                        title: '操作',
+                        key: 'action',
+                        render: (h, params) => {
+                            return h('div', [
+                                h('LinkButton', {
+                                    props: {
+                                        to: "print-view?order_id=" + params.row.order_id + "&from_type=0&user_name=" + params.row.user_name,
+                                        name: "打印小票",
+                                        size: "small",
+                                        type: "ghost"
+                                    },
+                                }, "打印小票")
+                            ])
+                        }
                     }
                 ],
                 columns: [
@@ -157,8 +173,23 @@
                     {
                         title: '结算时间',
                         key: 'add_time'
+                    },
+                    {
+                        title: '操作',
+                        key: 'action',
+                        render: (h, params) => {
+                            return h('div', [
+                                h('LinkButton', {
+                                    props: {
+                                        to: "print-view?order_id=" + params.row.use_order_id + "&from_type=1&user_name=" + params.row.user_name,
+                                        name: "打印小票",
+                                        size: "small",
+                                        type: "ghost"
+                                    },
+                                }, "打印小票")
+                            ])
+                        }
                     }
-
                 ]
             }
         },

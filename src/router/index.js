@@ -9,6 +9,7 @@ const Layout         =  resolve  => require(['../pages/Layout'], resolve)
 const dashboard      =  resolve  => require(['../pages/dashboard'], resolve)
 const UserController =  resolve  => require(['../pages/UserController'], resolve)
 const CheckOrder     =  resolve  => require(['../pages/CheckOrder'], resolve)
+const PrintView     =  resolve   => require(['../pages/PrintView'], resolve)
 
 Vue.use(Router)
 
@@ -41,6 +42,11 @@ const router = new Router({
                     component: CheckOrder
                 }
             ]
+        },
+        {
+            path: '/print-view',
+            name: 'print-view',
+            component: PrintView
         }
   ]
 })
