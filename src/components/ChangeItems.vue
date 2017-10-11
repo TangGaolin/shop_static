@@ -463,6 +463,17 @@
             },
 
             changeSubmit() {
+
+                let last_money= Number(-this.changeItemsData.itemsMoney) + Number(this.changeItemsData.newItemMoney) + Number(this.changeItemsData.change_fee)
+
+                //当最后金额未付，即退款时
+                if(last_money < 0) {
+                    // 支付金额也必须为负数
+                    this.payMoney = Number(this.changeItemsData.pay_cash) + Number(this.changeItemsData.pay_card) + Number(this.changeItemsData.pay_mobile)
+                    if(this.payMoney >= 0) {
+                        this.$Message.error('请填写支付金额，并且欠款不能负数')
+                    }
+                }
                 this.changeItemsData.add_time = formatDate(this.add_time, "yyyy-MM-dd HH:mm:ss")
                 this.changeItemsData.uid = this.currentUserData.uid
                 this.changeItemsData.shop_id = this.userInfo.shop_id

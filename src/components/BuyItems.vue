@@ -286,7 +286,7 @@
                         }
 
                         //余额使用规则
-                        if(this.BuyItemsData.pay_balance > this.currentUserData.balance) {
+                        if(Number(this.BuyItemsData.pay_balance) > Number(this.currentUserData.balance)) {
                             this.$Message.error('余额使用不正确！')
                             return
                         }

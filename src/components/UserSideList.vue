@@ -31,7 +31,8 @@
                             </p>
                             <p class="content">
                                 {{user.remark}}
-                                <Button type="ghost" size="small" @click="checkOrderTime(user)">确定到店</Button>
+                                <Button type="ghost" size="small" @click="checkOrderTime(user,1)">确定到店</Button>
+                                <Button type="warning" size="small" @click="checkOrderTime(user,-1)">取消</Button>
                             </p>
                         </TimelineItem>
                     </Timeline>
@@ -85,12 +86,16 @@
                 this.$router.push('/user-controller?uid=' + uid)
             },
 
-            checkOrderTime(user) {
+            checkOrderTime(user, status) {
                 checkUserOrderTime({
-                    order_time_id: user.id
+                    order_time_id: user.id,
+                    status: status
                 }).then((response) => {
                     this.getOrderUserData()
-                    this.chooseUser(user.uid)
+                    if(1 === status) {
+                        this.chooseUser(user.uid)
+                    }
+
                 }).catch((e) => {
                     console.log(e)
                 })

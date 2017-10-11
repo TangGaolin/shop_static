@@ -53,7 +53,12 @@
                 </div>
             </Col>
         </Row>
-        <br>
+        <br/>
+        <div>
+            <label>上次离店时间：</label>
+            {{ currentUserData.leave_shop_time }}
+        </div>
+        <br/>
         <div>
             <label>备注：</label>
             {{ currentUserData.remark }}
