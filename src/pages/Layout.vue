@@ -99,6 +99,7 @@
 
                             <AddUser :empData = empData
                                      :shopConfig = userInfo
+                                     :globalConfig = globalConfig
                             ></AddUser>
                             <NotUserBuyItems
                                     :empData = empData
@@ -147,6 +148,7 @@
         computed: {
             ...mapGetters([
                 'userInfo',
+                'globalConfig'
             ])
         },
         created() {

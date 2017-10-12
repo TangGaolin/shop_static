@@ -8,6 +8,7 @@
                 <Icon type="person"></Icon>
                     {{currentUserData.user_name}}
                 <Tag color="blue">A 类</Tag>
+                <EditUser :empData = empData></EditUser>
             </h1>
             <br>
             <UserInfo :currentUserData = currentUserData></UserInfo>

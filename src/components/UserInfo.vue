@@ -54,10 +54,18 @@
             </Col>
         </Row>
         <br/>
-        <div>
-            <label>上次离店时间：</label>
-            {{ currentUserData.leave_shop_time }}
-        </div>
+        <Row :gutter="16">
+            <Col span="10">
+                <label>上次离店时间：</label>
+                {{ currentUserData.leave_shop_time }}
+            </Col>
+            <Col span="10">
+            <div>
+                <label>到店渠道：</label>
+                {{ currentUserData.source }}
+            </div>
+            </Col>
+        </Row>
         <br/>
         <div>
             <label>备注：</label>

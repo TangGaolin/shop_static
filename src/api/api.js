@@ -242,4 +242,13 @@ export function getOrderInfo(params) {
     });
 }
 
+//更新会员信息
+export function updateUser(params) {
+    const data = params
+    return fetch({
+        url:  process.env.API_ROOT + '/shop/updateUser',
+        method: 'post',
+        data
+    });
+}
 

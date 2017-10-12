@@ -28,7 +28,9 @@
                 </Form-item>
 
                 <Form-item label="到店渠道" prop="source">
-                    <Input v-model="newUserData.source" placeholder=""></Input>
+                    <Select v-model="newUserData.source" placeholder="到店渠道...">
+                        <Option v-for="source in globalConfig.user_channel" :value = source :key = source>{{ source }}</Option>
+                    </Select>
                 </Form-item>
 
                 <Form-item label="介绍" prop="remark">

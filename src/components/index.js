@@ -20,6 +20,7 @@ Vue.component('ChangeItems', require('./ChangeItems.vue'))
 Vue.component('NotUserBuyGoods', require('./NotUserBuyGoods.vue'))
 Vue.component('NotUserBuyItems', require('./NotUserBuyItems.vue'))
 Vue.component('LinkButton', require('./LinkButton.vue'))
+Vue.component('EditUser', require('./EditUser.vue'))
 
 
 
