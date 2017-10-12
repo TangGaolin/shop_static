@@ -87,7 +87,7 @@
                         this.$Message.error(response.msg)
                     } else {
                         this.$store.dispatch('loadUserDetail', {'uid': this.currentUserData.uid})
-                        this.$Message.error("更新成功")
+                        this.$Message.success("更新成功")
                         this.showModel = false
                     }
                 })
