@@ -1,6 +1,6 @@
 <template>
     <span>
-        <Button type="ghost" icon="edit"  size="small" @click = "showModel = true">编辑</Button>
+        <Button type="ghost" icon="edit"  size="small" @click = "showModelAction">编辑</Button>
 
         <Modal v-model="showModel" width="480" >
             <p slot="header" style="color:#f60;text-align:center" class = "red" >
@@ -71,14 +71,6 @@
             ])
         },
 
-        created() {
-            if(this.currentUserData.birthday) {
-                let date = this.currentUserData.birthday.split("-")
-                this.birthday = new Date(date[0], parseInt(date[1])-1, date[2])
-            }else{
-                this.birthday = new Date()
-            }
-        },
         methods: {
             updateUserInfo() {
                 this.currentUserData.birthday = formatDate(this.birthday,'yyyy-MM-dd')
@@ -91,7 +83,17 @@
                         this.showModel = false
                     }
                 })
+            },
+            showModelAction() {
+                this.showModel = true
+                if(this.currentUserData.birthday) {
+                    let date = this.currentUserData.birthday.split("-")
+                    this.birthday = new Date(date[0], parseInt(date[1])-1, date[2])
+                }else{
+                    this.birthday = new Date()
+                }
             }
+
         }
     }
 </script>

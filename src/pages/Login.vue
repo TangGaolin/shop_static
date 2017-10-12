@@ -121,7 +121,6 @@ export default {
             let shop_info = JSON.parse(this.selectShop)
             this.loginInfo.shop_id = shop_info.shop_id
             this.loginInfo.shop_name = shop_info.shop_name
-            console.log(this.loginInfo)
             this.$store.dispatch('updateAccountAction', this.loginInfo).then(() => {
                 this.$router.push('/')
             })
