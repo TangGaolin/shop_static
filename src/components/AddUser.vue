@@ -8,7 +8,7 @@
             </p>
             <Form ref="newUserData" :model="newUserData" :rules="ruleValidate" :label-width="80">
                 <Form-item label="操作时间" prop="add_time">
-                    <Date-picker type="datetime" placeholder="选择日期和时间" :options="options1" v-model="newUserData.add_time" style="width: 180px"></Date-picker>
+                    <Date-picker type="datetime" placeholder="选择日期和时间" :options="options1" v-model="add_time" style="width: 180px"></Date-picker>
                 </Form-item>
                 <Form-item label="姓名" prop="user_name">
                     <Input v-model="newUserData.user_name" placeholder="会员姓名..."></Input>
@@ -24,7 +24,7 @@
                 </Form-item>
 
                 <Form-item label= "生日" prop="birthday">
-                    <Date-picker type="date" format = "yyyy-MM-dd" placeholder="选择日期" v-model="newUserData.birthday" style="width: 180px" ></Date-picker>
+                    <Date-picker type="date" format = "yyyy-MM-dd" placeholder="选择日期" v-model="birthday" style="width: 180px" ></Date-picker>
                 </Form-item>
 
                 <Form-item label="到店渠道" prop="source">
@@ -65,6 +65,8 @@
                     }
                 },
                 newUserModel: false,
+                birthday: "",
+                add_time: "",
                 newUserData: {
                     user_name: "",
                     phone_no: "",
@@ -88,8 +90,8 @@
             handleSubmit (name) {
                 this.$refs[name].validate((valid) => {
                     if (valid) {
-                        this.newUserData.add_time = formatDate(this.newUserData.add_time, "yyyy-MM-dd HH:mm:ss")
-                        this.newUserData.birthday = formatDate(this.newUserData.birthday, "yyyy-MM-dd")
+                        this.newUserData.add_time = formatDate(this.add_time, "yyyy-MM-dd HH:mm:ss")
+                        this.newUserData.birthday = formatDate(this.birthday, "yyyy-MM-dd")
                         this.newUserData.shop_id = this.shopConfig.shop_id
 
                         addUser(this.newUserData).then((response) => {
@@ -115,7 +117,7 @@
             showNewUserModel(name) {
                 this.newUserModel = true
                 this.$refs[name].resetFields()
-                this.newUserData.add_time = new Date()
+                this.add_time = new Date()
             }
         }
     }

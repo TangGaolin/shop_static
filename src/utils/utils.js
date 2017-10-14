@@ -1,4 +1,7 @@
 export function formatDate(date, format){
+    if("" === date) {
+        return date
+    }
     var tf = function(i){
         return (i < 10 ? '0' : '') + i
     }
