@@ -21,6 +21,12 @@ const mutations = {
 
     [types.SET_USE_ORDER_LIST] (state, itemData) {
         state.useOrderList = itemData
+    },
+
+    [types.INIT_USER_DATA] (state) {
+        state.userOrders = {}
+        state.userItems = {}
+        state.useOrderList = {}
     }
 }
 export default {

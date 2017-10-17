@@ -97,6 +97,10 @@
                         <div class = "function-button" v-if="userInfo !== null">
                             <Button type="ghost" @click="goDashboard">主页控制台</Button>
 
+                            <AddOrderTime :empData = empData
+                                     :shopConfig = userInfo
+                                     :globalConfig = globalConfig
+                            ></AddOrderTime>
                             <AddUser :empData = empData
                                      :shopConfig = userInfo
                                      :globalConfig = globalConfig

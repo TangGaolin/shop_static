@@ -190,15 +190,14 @@
                     }
                     //检查分配手工和消耗金额是否真确
                     item.emps.forEach((emp) =>{
-                        fee += Number(emp.fee)
+//                        fee += Number(emp.fee)
                         use_money += Number(emp.xiaohao)
                     });
 
-                    if(fee > (Number(item.emp_fee) * Number(item.use_time))){
-                        this.$Message.warning(item.item_name + "手工数据不正确")
-                        return
-                    }
-
+//                    if(fee > (Number(item.emp_fee) * Number(item.use_time))){
+//                        this.$Message.warning(item.item_name + "手工数据不正确")
+//                        return
+//                    }
                     if(use_money > Number(item.sold_price) * Number(item.use_time)){
                         this.$Message.warning(item.item_name + "消耗数据不正确")
                         return

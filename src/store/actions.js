@@ -77,6 +77,8 @@ export const loadUserDetail = ({commit}, params) => {
 
         //若是新创建用户则不执行
         if(!('uid' in params)){
+            //初始化卡项数据
+            commit(types.INIT_USER_DATA)
             return;
         }
 
@@ -85,7 +87,7 @@ export const loadUserDetail = ({commit}, params) => {
             if(0 !== response.statusCode) {
                 Message.error(response.msg)
             }else{
-                commit(types.SET_USER_ITEMS,response.data); //获得的数据通过mutation，存入store中
+                commit(types.SET_USER_ITEMS,response.data)
                 resolve(response)
             }
         }).catch((error) => {
@@ -98,7 +100,7 @@ export const loadUserDetail = ({commit}, params) => {
             if(0 !== response.statusCode) {
                 Message.error(response.msg)
             }else{
-                commit(types.SET_USER_ORDERS, response.data); //获得的数据通过mutation，存入store中
+                commit(types.SET_USER_ORDERS, response.data)
                 resolve(response)
             }
         }).catch((error) => {
@@ -110,7 +112,7 @@ export const loadUserDetail = ({commit}, params) => {
             if(0 !== response.statusCode) {
                 Message.error(response.msg)
             }else{
-                commit(types.SET_USE_ORDER_LIST, response.data); //获得的数据通过mutation，存入store中
+                commit(types.SET_USE_ORDER_LIST, response.data)
                 resolve(response)
             }
         }).catch((error) => {
@@ -128,7 +130,7 @@ export const getUserOrderList = ({commit}, params) => {
             if(0 !== response.statusCode) {
                 Message.error(response.msg)
             }else{
-                commit(types.SET_USER_ORDERS,response.data); //获得的数据通过mutation，存入store中
+                commit(types.SET_USER_ORDERS,response.data)
                 resolve(response)
             }
         }).catch((error) => {
@@ -144,7 +146,7 @@ export const getUserItems = ({commit}, params) => {
             if(0 !== response.statusCode) {
                 Message.error(response.msg)
             }else{
-                commit(types.SET_USER_ITEMS,response.data); //获得的数据通过mutation，存入store中
+                commit(types.SET_USER_ITEMS,response.data)
                 resolve(response)
             }
         }).catch((error) => {
@@ -160,7 +162,7 @@ export const getUseOrders = ({commit}, params) => {
             if(0 !== response.statusCode) {
                 Message.error(response.msg)
             }else{
-                commit(types.SET_USE_ORDER_LIST, response.data); //获得的数据通过mutation，存入store中
+                commit(types.SET_USE_ORDER_LIST, response.data)
                 resolve(response)
             }
         }).catch((error) => {

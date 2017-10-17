@@ -33,7 +33,7 @@
                     </Select>
                 </Form-item>
 
-                <Form-item label="介绍" prop="remark">
+                <Form-item label="备注" prop="remark">
                     <Input v-model="newUserData.remark" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入..."></Input>
                 </Form-item>
 
@@ -97,9 +97,6 @@
                         addUser(this.newUserData).then((response) => {
                             if (0 !== response.statusCode) {
                                 this.$Message.error(response.msg)
-                                //重置时间
-                                this.newUserData.add_time = new Date()
-                                this.newUserData.birthday = ""
                             } else {
                                 this.$Message.success('提交成功!')
                                 this.newUserModel = false

@@ -316,9 +316,11 @@
                                 this.$Message.error(response.msg)
                             } else {
                                 this.$Message.success('购买成功!')
-                                this.showModel = false
-                                this.$refs[name].resetFields()
-                                this.$store.dispatch('loadUserDetail', {'uid': this.currentUserData.uid})
+                                location.reload()
+//                                this.showModel = false
+//                                this.$refs[name].resetFields()
+//                                Object.assign(this.$data, this.$options.data())
+//                                this.$store.dispatch('loadUserDetail', {'uid': this.currentUserData.uid})
                             }
                         })
                     } else {

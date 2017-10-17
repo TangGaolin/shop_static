@@ -313,18 +313,24 @@
                                 this.$Message.error(response.msg)
                             } else {
                                 this.$Message.success('购买成功!')
-                                this.buyItemsModel = false
-                                this.BuyItemsData = {
-                                    add_time: "",
-                                    selectedItems: [],
-                                    itemsMoney: 0,
-                                    pay_balance: 0,
-                                    pay_cash: 0,
-                                    pay_card: 0,
-                                    pay_mobile: 0,
-                                    pay_emps:[]
-                                }
-                                this.$store.dispatch('loadUserDetail', {'uid': this.currentUserData.uid})
+
+                                location.reload()
+//                                this.buyItemsModel = false
+//                                //清空数据
+//                                this.BuyItemsData = {
+//                                    add_time: "",
+//                                    selectedItems: [],
+//                                    itemsMoney: 0,
+//                                    pay_balance: 0,
+//                                    pay_cash: 0,
+//                                    pay_card: 0,
+//                                    pay_mobile: 0,
+//                                    pay_emps:[]
+//                                }
+//
+//                                this.empRate = []
+//                                this.selectItem = []
+//                                this.$store.dispatch('loadUserDetail', {'uid': this.currentUserData.uid})
                             }
                         })
                     } else {

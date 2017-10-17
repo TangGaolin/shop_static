@@ -33,7 +33,7 @@
                     </Select>
                 </Form-item>
 
-                <Form-item label="介绍" prop="remark">
+                <Form-item label="备注" prop="remark">
                     <Input v-model="currentUserData.remark" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入..."></Input>
                 </Form-item>
             </Form>

@@ -252,3 +252,12 @@ export function updateUser(params) {
     });
 }
 
+//会员预约功能
+export function orderTime(params) {
+    const data = params
+    return fetch({
+        url:  process.env.API_ROOT + '/shop/orderTime',
+        method: 'post',
+        data
+    });
+}

@@ -21,6 +21,7 @@
     <div class="user-side">
         <Collapse >
             <Panel name="1">
+                <Button type="ghost" icon="loop" size="small" @click.stop="getOrderUserData()"></Button>
                 预约顾客 <Badge :count="orderUser.length"></Badge>
                 <p slot="content" >
                     <Timeline>
@@ -39,6 +40,7 @@
                 </p>
             </Panel>
             <Panel name="3" >
+                <Button type="ghost" icon="loop" size="small" @click.stop="getTodayUserData()"></Button>
                 今日顾客 <Tag color="green"> {{ todayUser.length }}  </Tag>
                 <div slot="content" class="user-list">
                     <p  v-for="user in todayUser" >
