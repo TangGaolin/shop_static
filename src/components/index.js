@@ -22,6 +22,7 @@ Vue.component('NotUserBuyItems', require('./NotUserBuyItems.vue'))
 Vue.component('LinkButton', require('./LinkButton.vue'))
 Vue.component('EditUser', require('./EditUser.vue'))
 Vue.component('AddOrderTime', require('./AddOrderTime.vue'))
+Vue.component('OrderTimeTable', require('./OrderTimeTable.vue'))
 
 
 

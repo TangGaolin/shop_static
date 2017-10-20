@@ -232,6 +232,16 @@ export function getOrderUser(params) {
     });
 }
 
+//获取预约看板数据
+export function getOrderTimeView(params) {
+    const data = params
+    return fetch({
+        url:  process.env.API_ROOT + '/shop/getOrderTimeView',
+        method: 'post',
+        data
+    });
+}
+
 //根据order_id 和 单据类型 获取单据详情
 export function getOrderInfo(params) {
     const data = params

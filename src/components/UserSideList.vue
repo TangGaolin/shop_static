@@ -21,8 +21,8 @@
     <div class="user-side">
         <Collapse >
             <Panel name="1">
-                <Button type="ghost" icon="loop" size="small" @click.stop="getOrderUserData()"></Button>
-                预约顾客 <Badge :count="orderUser.length"></Badge>
+                <Button type="ghost" icon="refresh" size="small" @click.stop="getOrderUserData()"></Button>
+                预约顾客 <Tag color="red">{{ orderUser.length }}</Tag>
                 <p slot="content" >
                     <Timeline>
                         <TimelineItem v-for="(user, index) in orderUser" :key="index">
@@ -40,7 +40,7 @@
                 </p>
             </Panel>
             <Panel name="3" >
-                <Button type="ghost" icon="loop" size="small" @click.stop="getTodayUserData()"></Button>
+                <Button type="ghost" icon="refresh" size="small" @click.stop="getTodayUserData()"></Button>
                 今日顾客 <Tag color="green"> {{ todayUser.length }}  </Tag>
                 <div slot="content" class="user-list">
                     <p  v-for="user in todayUser" >
@@ -54,6 +54,7 @@
 </template>
 <script>
     import { getTodayUsers, checkUserOrderTime, getOrderUser } from '../api/api'
+    import { formatDate } from '../utils/utils'
     export default {
 
         props: {
@@ -105,7 +106,8 @@
 
             getOrderUserData() {
                 getOrderUser({
-                    shop_id: this.shopConfig.shop_id
+                    shop_id: this.shopConfig.shop_id,
+                    start_time: formatDate(new Date(), "yyyy-MM-dd"),
                 }).then((response) => {
                     if(0 !== response.statusCode) {
                         this.$Message.error(response.msg)

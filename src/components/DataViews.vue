@@ -1,6 +1,6 @@
 <template>
     <div>
-
+        <h2>门店数据 <Button type="ghost" icon="refresh" size="small" @click="getShopData()">刷新</Button></h2>
         <Row style="padding: 20px;color: #ffffff">
             <Col span = "11">
             <Card style="background-color: #4e9c28">
@@ -36,7 +36,7 @@
     import { mapGetters } from 'vuex'
     import VeHistogram from 'v-charts/lib/histogram'
     import { getShopDataView } from '../api/api'
-    import {formatDate} from "../utils/utils";
+    import {formatDate} from "../utils/utils"
     export default {
         components: {
             VeHistogram
@@ -66,32 +66,37 @@
             ])
         },
         created: function () {
-            getShopDataView({shop_id: this.userInfo.shop_id}).then((response) => {
-                if (0 !== response.statusCode) {
-                    this.$Message.error(response.msg)
-                } else {
-                    this.viewData = response.data
-                    this.chartData = {
-                        columns: ['day', 'yeji', 'xiaohao'],
-                        rows: this.viewData
-                    }
-                    this.chartSettings = {
-                        dimension: ['day'],
-                        metrics: ['yeji', 'xiaohao'],
-                        yAxisName: ['业绩', '消耗'],
-                        yAxisType: ['KMB'],
-                        area: false,
-                        labelMap: {
-                            day: '日期',
-                            xiaohao: '消耗',
-                            yeji: '业绩'
-                        }
-                    }
-                    this.countData()
-                }
-            })
+            this.getShopData()
         },
         methods: {
+            getShopData() {
+                getShopDataView({shop_id: this.userInfo.shop_id}).then((response) => {
+                    if (0 !== response.statusCode) {
+                        this.$Message.error(response.msg)
+                    } else {
+                        this.viewData = response.data
+                        this.chartData = {
+                            columns: ['day', 'yeji', 'xiaohao'],
+                            rows: this.viewData
+                        }
+                        this.chartSettings = {
+                            dimension: ['day'],
+                            metrics: ['yeji', 'xiaohao'],
+                            yAxisName: ['业绩', '消耗'],
+                            yAxisType: ['KMB'],
+                            area: false,
+                            labelMap: {
+                                day: '日期',
+                                xiaohao: '消耗',
+                                yeji: '业绩'
+                            }
+                        }
+                        this.countData()
+                    }
+                })
+            },
+
+
             countData() {
                 this.shopDataView = {
                     yeji_today: 0,

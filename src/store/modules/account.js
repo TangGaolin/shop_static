@@ -3,7 +3,7 @@ import Cookies from 'js-cookie'
 
 const state = {
     userInfo: Cookies.getJSON('cashierinfo'),
-    globalConfig: {},
+    globalConfig: {}
 }
 const mutations = {
     [types.SET_ACCOUNT] (state, account) {
@@ -16,7 +16,7 @@ const mutations = {
     },
     [types.SET_CONFIG] (state, config) {
         state.globalConfig = config
-    },
+    }
 }
 export default {
     state: state,
