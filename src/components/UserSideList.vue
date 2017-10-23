@@ -107,6 +107,7 @@
             getOrderUserData() {
                 getOrderUser({
                     shop_id: this.shopConfig.shop_id,
+                    status: 0,
                     start_time: formatDate(new Date(), "yyyy-MM-dd"),
                 }).then((response) => {
                     if(0 !== response.statusCode) {
