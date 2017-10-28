@@ -77,7 +77,7 @@
                 <br/>
 
                 <Form-item label="使用余额" prop="pay_cash">
-                    <Input v-model="BuyItemsData.pay_balance" @on-change = "getPayMoney" style="width: 180px"></Input>
+                    <Input v-model="BuyItemsData.pay_balance" :disabled="currentUserData.balance == 0" @on-change = "getPayMoney" style="width: 180px"></Input>
                     &nbsp; &nbsp;
                     <Tag type="dot" color="yellow">{{currentUserData.balance}}元可用</Tag>
                 </Form-item>
@@ -140,7 +140,10 @@
             </Form>
 
             <p slot="footer" style="text-align: center">
-                <Button type="primary" @click="buyItemsSubmit('BuyItemsData')">确认购买</Button>
+                <Button type="primary" :loading="submitLoading" @click="buyItemsSubmit('BuyItemsData')">
+                    <span v-if="!submitLoading">确认购买</span>
+                    <span v-else>Loading...</span>
+                </Button>
                 <Button type="ghost" @click="handleReset()" style="margin-left: 8px">重 置</Button>
             </p>
         </Modal>
@@ -165,6 +168,7 @@
                 },
                 add_time: "",
                 loading: false,
+                submitLoading: false,
                 buyItemsModel: false,
                 selectItem: [],
                 items:[],
@@ -308,30 +312,17 @@
                         this.BuyItemsData.add_time = formatDate(this.add_time, "yyyy-MM-dd HH:mm:ss")
                         this.BuyItemsData.uid = this.currentUserData.uid
                         this.BuyItemsData.shop_id = this.userInfo.shop_id
+                        this.submitLoading = true
                         buyItems(this.BuyItemsData).then((response) => {
                             if (0 !== response.statusCode) {
                                 this.$Message.error(response.msg)
                             } else {
                                 this.$Message.success('购买成功!')
-
-                                location.reload()
-//                                this.buyItemsModel = false
-//                                //清空数据
-//                                this.BuyItemsData = {
-//                                    add_time: "",
-//                                    selectedItems: [],
-//                                    itemsMoney: 0,
-//                                    pay_balance: 0,
-//                                    pay_cash: 0,
-//                                    pay_card: 0,
-//                                    pay_mobile: 0,
-//                                    pay_emps:[]
-//                                }
-//
-//                                this.empRate = []
-//                                this.selectItem = []
-//                                this.$store.dispatch('loadUserDetail', {'uid': this.currentUserData.uid})
+                                Object.assign(this.$data, this.$options.data())
+                                this.handleReset()
+                                this.$store.dispatch('loadUserDetail', {'uid': this.currentUserData.uid})
                             }
+                            this.submitLoading = false
                         })
                     } else {
                         this.$Message.error('表单验证失败!')
@@ -340,6 +331,7 @@
             },
 
             handleReset() {
+                //清空数据
                 this.BuyItemsData = {
                     add_time: "",
                     selectedItems: [],
@@ -350,6 +342,10 @@
                     pay_mobile: 0,
                     pay_emps:[]
                 }
+                this.empRate = []
+                this.selectItem = []
+                this.payMoney = "0.00"
+                this.debt = "0.00"
             },
 
             showBuyItemsModel() {

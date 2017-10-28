@@ -68,7 +68,10 @@
 
 
             <p slot="footer" style="text-align: center">
-                <Button type="primary" @click="replaySubmit()">确认还款</Button>
+                <Button type="primary" :loading="submitLoading" @click="replaySubmit()">
+                    <span v-if="!submitLoading">确认还款</span>
+                    <span v-else>Loading...</span>
+                </Button>
                 <Button type="ghost" @click="handleReset()" style="margin-left: 8px">取 消</Button>
             </p>
         </Modal>
@@ -88,6 +91,7 @@
         data () {
             return {
                 showModel: false,
+                submitLoading: false,
                 add_time: new Date(),
                 options1: {
                     disabledDate (date) {
@@ -230,15 +234,16 @@
                 this.repayData.add_time = formatDate(this.add_time,"yyyy-MM-dd HH:mm:ss")
                 this.repayData.uid = this.currentUserData.uid
                 this.repayData.shop_id = this.userInfo.shop_id
-
+                this.submitLoading = true
                 repay(this.repayData).then((response) => {
                     if (0 !== response.statusCode) {
                         this.$Message.error(response.msg)
                     } else {
                         this.$Message.success('还款成功!')
-                        this.showModel = false
+                        Object.assign(this.$data, this.$options.data())
                         this.$store.dispatch('loadUserDetail', {'uid': this.currentUserData.uid})
                     }
+                    this.submitLoading = false
                 })
             },
             goShowModel() {

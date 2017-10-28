@@ -79,6 +79,11 @@
 
             <p slot="footer" style="text-align: center">
                 <Button type="primary" @click="rechargeSubmit()">确认充值</Button>
+
+                <Button type="primary" :loading="submitLoading" @click="rechargeSubmit">
+                    <span v-if="!submitLoading">确认充值</span>
+                    <span v-else>Loading...</span>
+                </Button>
                 <Button type="ghost" @click="handleReset()" style="margin-left: 8px">重 置</Button>
             </p>
         </Modal>
@@ -101,6 +106,7 @@
                         return date && date.valueOf() > Date.now();
                     }
                 },
+                submitLoading:false,
                 rechargeModel: false,
                 add_time: new Date(),
                 rechargeData: {
@@ -185,7 +191,7 @@
                 this.rechargeData.add_time = formatDate(this.add_time,"yyyy-MM-dd HH:mm:ss")
                 this.rechargeData.uid = this.currentUserData.uid
                 this.rechargeData.shop_id = this.userInfo.shop_id
-
+                this.submitLoading = true
                 chargeGoods(this.rechargeData).then((response) => {
                     if (0 !== response.statusCode) {
                         this.$Message.error(response.msg)
@@ -195,6 +201,8 @@
                         this.$store.dispatch('loadUserDetail', {'uid': this.currentUserData.uid})
                         this.handleReset()
                     }
+
+                    this.submitLoading = false
                 })
             },
 

@@ -39,7 +39,7 @@
                 </Col>
                 <Col span="6">
                     <Tag type="border" color="green" v-for="emp in item.emps" :key="emp.emp_id"> {{emp.emp_name}}({{emp.fee}}) </Tag>
-                    <Tag v-if="item.emps.length < 1">未选择</Tag>
+                    <p v-if="item.emps.length < 1">未选择，点击=></p>
                 </Col>
                 <Col span="4">
                     <Button type="success" size="small" @click="editUserItem(item.id)">编辑</Button>

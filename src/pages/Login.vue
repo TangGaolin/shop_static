@@ -38,7 +38,7 @@
                         <Input v-model="formInline.user" size="large" icon="person" placeholder="收银账号..."></Input>
                     </Form-item>
                     <Form-item prop="password">
-                        <Input v-model="formInline.password" type="password" size="large" icon="key" placeholder="输入密码..."></Input>
+                        <Input v-model="formInline.password" type="password" size="large" icon="key" placeholder="输入密码..." @on-enter="handleSubmit('formInline')"></Input>
                     </Form-item>
                     <Form-item>
                         <i-button type="primary" @click.native="handleSubmit('formInline')" long size="large">

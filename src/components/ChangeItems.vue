@@ -29,6 +29,16 @@
                 </p>
 
                 <br/>
+                <Form-item label="折会员卡" prop="pay_cash">
+                    <Input v-model="changeItemsData.pay_balance" :disabled="currentUserData.balance == 0" @on-change = "getPayMoney" style="width: 180px"></Input>
+                    &nbsp; &nbsp;
+                    <Tag type="dot" color="yellow">{{currentUserData.balance}}元可用</Tag>
+                    </Form-item>
+                <Form-item label="可折产品卡" prop="pay_cash">
+                    <Input v-model="changeItemsData.good_money" :disabled="currentUserData.good_money == 0" @on-change = "getPayMoney" style="width: 180px"></Input>
+                    &nbsp; &nbsp;
+                    <Tag type="dot" color="yellow">{{currentUserData.good_money}}元可用</Tag>
+                </Form-item>
                 <br/>
                 <div v-if = "changeItemsData.select_items.length > 0" class="div-border">
                     <Row style="border-bottom: 1px solid #ccc;font-weight: bolder;text-align: center" >
@@ -70,11 +80,12 @@
                 </div>
                 <br/>
 
-                <Form-item label="金额总计" v-if="changeItemsData.itemsMoney">
-                    <Tag type="dot" color="green">{{ changeItemsData.itemsMoney }} 元</Tag>
+                <Form-item label="金额总计" v-if="Number(changeItemsData.itemsMoney) + Number(changeItemsData.pay_balance) + Number(changeItemsData.good_money)">
+                    <Tag type="dot" color="green">{{ (Number(changeItemsData.itemsMoney) + Number(changeItemsData.pay_balance) + Number(changeItemsData.good_money)).toFixed(2) }} 元</Tag>
                     &nbsp;&nbsp;&nbsp;
                     <Button type="success" @click="newItem" >{{ newItemCtrlBtn }}</Button>
                 </Form-item>
+
                 <!--换购区域-->
                 <div v-if="newItemCtrl && changeItemsData.select_items.length > 0" class="div-border">
                     <h2 style="text-align: center">选择换购项目</h2>
@@ -132,7 +143,7 @@
                     </Form-item>
 
                     <Form-item label="消费总计" >
-                        <Tag type="dot" color="green">{{ changeItemsData.newItemMoney }} 元</Tag>
+                        <Tag type="dot" color="green">{{ changeItemsData.newItemMoney.toFixed(2) }} 元</Tag>
                     </Form-item>
                 </div>
 
@@ -149,7 +160,9 @@
                     </Form-item>
                     <Form-item label="最后交易额">
                         <Tag type="dot" color="red">
-                            {{ Number(-changeItemsData.itemsMoney) + Number(changeItemsData.newItemMoney) + Number(changeItemsData.change_fee) }}
+                            {{ Math.ceil((-(Number(changeItemsData.itemsMoney) + Number(changeItemsData.pay_balance) + Number(changeItemsData.good_money))
+                                + Number(changeItemsData.newItemMoney)
+                                + Number(changeItemsData.change_fee)).toFixed(2)) }}
                         </Tag>
                          元
                     </Form-item>
@@ -209,7 +222,10 @@
 
 
             <p slot="footer" style="text-align: center">
-                <Button type="primary" @click="changeSubmit()">确认退换</Button>
+                <Button type="primary" :loading="submitLoading" @click="changeSubmit">
+                    <span v-if="!submitLoading">确认退换</span>
+                    <span v-else>加载中...</span>
+                </Button>
                 <Button type="ghost" @click="handleReset()" style="margin-left: 8px">取 消</Button>
             </p>
         </Modal>
@@ -230,6 +246,7 @@
         data () {
             return {
                 showModel: false,
+                submitLoading: false,
                 add_time: new Date(),
                 options1: {
                     disabledDate (date) {
@@ -293,9 +310,9 @@
                             ]) : "使用结束"
                         }
                     }
-                ],
+                ], //现有项目有表格数据
 
-                items:[],  // 查询到的项目数据
+                items:[],  // 查询到的要换购的项目数据
                 selectItem: [], //转化之后项目数据
                 changeItemsData: {
                     select_items: [],
@@ -308,7 +325,8 @@
                     pay_cash: 0,
                     pay_card: 0,
                     pay_mobile: 0,
-                    use_balance: 0,
+                    pay_balance: 0, //使用余额
+                    good_money: 0,  //使用产品卡
                     change_fee: 0, //手续费
                 },
                 newItemCtrl: false,
@@ -340,6 +358,8 @@
                     this.changeItemsData.select_items_ids.push(param.id)
                     this.changeItemsData.select_items.push(item)
                     this.getItemsMoney()
+                }else{
+                    this.$Message.error('已经在选择的列表中！')
                 }
             },
             //计算金额
@@ -348,6 +368,7 @@
                 this.changeItemsData.select_items.forEach((item) => {
                     this.changeItemsData.itemsMoney += Number(item.change_money)
                 })
+                this.changeItemsData.itemsMoney = Math.round(this.changeItemsData.itemsMoney)
             },
             //修改次数
             changeTimes(id) {
@@ -432,13 +453,17 @@
                 this.changeItemsData.selectedNewItems.forEach((item) => {
                     this.changeItemsData.newItemMoney += Number(item.sold_money)
                 })
+                this.changeItemsData.newItemMoney = Math.round(this.changeItemsData.newItemMoney)
             },
 
             //计算业绩金额
             getPayMoney() {
                 this.payMoney = Number(this.changeItemsData.pay_cash) + Number(this.changeItemsData.pay_card) + Number(this.changeItemsData.pay_mobile)
                 this.payMoney = this.payMoney.toFixed(2)
-                let last_money= Number(-this.changeItemsData.itemsMoney) + Number(this.changeItemsData.newItemMoney) + Number(this.changeItemsData.change_fee)
+                let last_money= Number(-this.changeItemsData.pay_balance) + Number(-this.changeItemsData.good_money)
+                    + Number(-this.changeItemsData.itemsMoney)
+                    + Number(this.changeItemsData.newItemMoney) + Number(this.changeItemsData.change_fee)
+                last_money = Math.ceil(last_money)
                 this.debt     = last_money - this.payMoney
                 this.debt     = this.debt.toFixed(2)
             },
@@ -477,6 +502,7 @@
                 this.changeItemsData.add_time = formatDate(this.add_time, "yyyy-MM-dd HH:mm:ss")
                 this.changeItemsData.uid = this.currentUserData.uid
                 this.changeItemsData.shop_id = this.userInfo.shop_id
+                this.submitLoading = true
                 changeItems(this.changeItemsData).then((response) => {
                     if (0 !== response.statusCode) {
                         this.$Message.error(response.msg)
@@ -485,6 +511,11 @@
                         this.showModel = false
                         this.$store.dispatch('loadUserDetail', {'uid': this.currentUserData.uid})
                     }
+                    this.submitLoading = false
+                }).catch((error) => {
+                    console.log(error)
+                    this.$Message.error("系统错误！联系总部反馈，请勿离开页面！")
+                    this.submitLoading = false
                 })
             },
             goShowModel() {

@@ -77,13 +77,13 @@
                 <br/>
 
                 <Form-item label="使用余额">
-                    <Input v-model="BuyGoodsData.pay_balance" @on-change = "getPayMoney" style="width: 180px"></Input>
+                    <Input v-model="BuyGoodsData.pay_balance" :disabled="currentUserData.balance == 0" @on-change = "getPayMoney" style="width: 180px"></Input>
                     &nbsp;
                     <Tag type="dot" color="yellow">{{currentUserData.balance}}元可用</Tag>
                 </Form-item>
 
                 <Form-item label="使用产品卡">
-                    <Input v-model="BuyGoodsData.use_good_money" @on-change = "getPayMoney" style="width: 180px"></Input>
+                    <Input v-model="BuyGoodsData.use_good_money" :disabled="currentUserData.good_money == 0" @on-change = "getPayMoney" style="width: 180px"></Input>
                     &nbsp;
                     <Tag type="dot" color="yellow">{{currentUserData.good_money}}元可用</Tag>
                 </Form-item>
@@ -146,7 +146,10 @@
             </Form>
 
             <p slot="footer" style="text-align: center">
-                <Button type="primary" @click="buyItemsSubmit('BuyGoodsData')">确认购买</Button>
+                <Button type="primary" :loading="submitLoading" @click="buyItemsSubmit('BuyGoodsData')">
+                    <span v-if="!submitLoading">确认购买</span>
+                    <span v-else>Loading...</span>
+                </Button>
                 <Button type="ghost" @click="handleReset()" style="margin-left: 8px">重 置</Button>
             </p>
         </Modal>
@@ -171,6 +174,7 @@
                 },
                 loading: false,
                 showModel: false,
+                submitLoading:false,
                 selectGoods: [],
                 goods:[],
                 add_time: "",
@@ -311,18 +315,18 @@
                         this.BuyGoodsData.add_time = formatDate(this.add_time,"yyyy-MM-dd HH:mm:ss")
                         this.BuyGoodsData.uid = this.currentUserData.uid
                         this.BuyGoodsData.shop_id = this.userInfo.shop_id
+                        this.submitLoading = true
                         buyGoods(this.BuyGoodsData).then((response) => {
                             if (0 !== response.statusCode) {
                                 this.$Message.error(response.msg)
                             } else {
                                 this.$Message.success('购买成功!')
-                                location.reload()
-//                                this.showModel = false
-//                                this.$refs[name].resetFields()
-//                                Object.assign(this.$data, this.$options.data())
-//                                this.$store.dispatch('loadUserDetail', {'uid': this.currentUserData.uid})
+                                Object.assign(this.$data, this.$options.data())
+                                this.$store.dispatch('loadUserDetail', {'uid': this.currentUserData.uid})
                             }
                         })
+
+                        this.submitLoading = true
                     } else {
                         this.$Message.error('表单验证失败!')
                     }

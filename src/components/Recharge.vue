@@ -41,12 +41,12 @@
                         </Form-item>
                     </Col>
                     <Col span="8">
-                         <Form-item label="欠款金额" style="color: red">
-                             <Tag type="border" color="red">{{debt}}</Tag>
+                         <Form-item label="欠款金额">
+                             <Tag type= "dot"  color="red">{{ debt }}</Tag>
                          </Form-item>
                      </Col>
                 </Row>
-                <p style="color: blue;text-align: center">
+                <p style="color: red;text-align: center">
                     注: 实收金额 = 现金+银行卡+微信+支付宝 &nbsp;&nbsp; 欠款金额 = 充值金额-实收金额
                 </p>
                 <br/>
@@ -66,7 +66,7 @@
                     </Col>
                 </Row>
 
-                <p style="color: blue;text-align: center">
+                <p style="color: red;text-align: center">
                     注: 销售人分配总金额 = 实收金额
                 </p>
 
@@ -74,7 +74,10 @@
             </Form>
 
             <p slot="footer" style="text-align: center">
-                <Button type="primary" @click="rechargeSubmit()">确认充值</Button>
+                <Button type="primary" :loading="submitLoading" @click="rechargeSubmit">
+                    <span v-if="!submitLoading">确认充值</span>
+                    <span v-else>加载中...</span>
+                </Button>
                 <Button type="ghost" @click="handleReset()" style="margin-left: 8px">重 置</Button>
             </p>
         </Modal>
@@ -97,6 +100,8 @@
                         return date && date.valueOf() > Date.now();
                     }
                 },
+
+                submitLoading:false,
                 rechargeModel: false,
                 add_time:"",
                 rechargeData: {
@@ -178,6 +183,8 @@
                 this.rechargeData.add_time = formatDate(this.add_time,"yyyy-MM-dd HH:mm:ss")
                 this.rechargeData.uid = this.currentUserData.uid
                 this.rechargeData.shop_id = this.userInfo.shop_id
+
+                this.submitLoading = true
                 recharge(this.rechargeData).then((response) => {
                     if (0 !== response.statusCode) {
                         this.$Message.error(response.msg)
@@ -187,6 +194,7 @@
                         this.$store.dispatch('loadUserDetail', {'uid': this.currentUserData.uid})
                         this.handleReset()
                     }
+                    this.submitLoading = false
                 })
 
             },
@@ -198,12 +206,16 @@
 
             handleReset() {
                 this.rechargeData = {
+                    add_time: "",
                     charge_money: "",
                     pay_cash: 0,
                     pay_card: 0,
                     pay_mobile: 0,
-                    pay_emps:[]
+                    pay_emps:[],
+                    emp_ids:[]
                 }
+                this.payMoney = '0.00'
+                this.debt = '0.00'
             }
         }
     }
