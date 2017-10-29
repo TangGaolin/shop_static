@@ -18,7 +18,7 @@
 
             <Form ref="changeItemsData" :model="changeItemsData"  :label-width="80">
                 <Form-item label="操作时间" prop="add_time">
-                    <Date-picker type="datetime" placeholder="选择日期和时间" :options = options1 :value= add_time style="width: 180px"></Date-picker>
+                    <Date-picker type="datetime" placeholder="选择日期和时间" :options = options1 v-model="add_time"  style="width: 180px"></Date-picker>
                 </Form-item>
 
                 <h2 style="text-align: center">现有项目</h2>
@@ -247,7 +247,7 @@
             return {
                 showModel: false,
                 submitLoading: false,
-                add_time: new Date(),
+                add_time: "",
                 options1: {
                     disabledDate (date) {
                         return date && date.valueOf() > Date.now();
@@ -508,7 +508,7 @@
                         this.$Message.error(response.msg)
                     } else {
                         this.$Message.success('购买成功!')
-                        this.showModel = false
+                        Object.assign(this.$data, this.$options.data())
                         this.$store.dispatch('loadUserDetail', {'uid': this.currentUserData.uid})
                     }
                     this.submitLoading = false
