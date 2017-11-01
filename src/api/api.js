@@ -271,3 +271,15 @@ export function orderTime(params) {
         data
     });
 }
+
+
+//钉钉报单功能
+export function reportOrderData(params) {
+    const data = params
+    return fetch({
+        url:  process.env.API_ROOT + '/shop/reportOrderData',
+        method: 'post',
+        data
+    });
+}
+

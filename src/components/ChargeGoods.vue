@@ -78,8 +78,6 @@
             </Form>
 
             <p slot="footer" style="text-align: center">
-                <Button type="primary" @click="rechargeSubmit()">确认充值</Button>
-
                 <Button type="primary" :loading="submitLoading" @click="rechargeSubmit">
                     <span v-if="!submitLoading">确认充值</span>
                     <span v-else>Loading...</span>

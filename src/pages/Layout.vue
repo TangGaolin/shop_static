@@ -34,7 +34,7 @@
     }
     .layout-body{
         width: 80%;
-        max-width: 1400px;
+        /*max-width: 1200px;*/
         margin-left: auto;
         margin-right: auto;
         padding: 36px 0 88px;
