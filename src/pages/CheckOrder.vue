@@ -61,7 +61,7 @@
     import expandRow from '../components/UseOrderInfoTableRow.vue'
     import OrderInfoTableRow from '../components/OrderInfoTableRow.vue'
     export default {
-        components: { expandRow,OrderInfoTableRow },
+        components: { expandRow,OrderInfoTableRow},
         data() {
             return {
                 chooseDate: new Date(),
@@ -253,6 +253,8 @@
             getOrderList(select_date) {
                 getOrderList({
                     shop_id: this.userInfo.shop_id,
+                    cur_page: this.yejiCurPage,
+                    limit: 15,
                     select_date: select_date
                 }).then((response) => {
                     if(0 !== response.statusCode) {
@@ -268,6 +270,8 @@
             getUseOrderList(select_date) {
                 getUseOrderList({
                     shop_id: this.userInfo.shop_id,
+                    cur_page: this.curPage,
+                    limit: 15,
                     select_date: select_date
                 }).then((response) => {
                     if(0 !== response.statusCode) {
@@ -336,7 +340,7 @@
             },
             changePageYeji(page) {
                 this.yejiCurPage = page
-                this.getOrderData()
+                this.getOrderList()
             },
             changePageXiaohao(page) {
                 this.cur_page = page
