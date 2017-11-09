@@ -7,6 +7,10 @@
                     <span class="expand-key">充值金额：</span>
                     <span class="expand-value">{{ row.worth_money }}</span>
                 </Col>
+                <Col span="6" v-if="row.order_info.give_money > 0">
+                    <span class="expand-key">赠送金额：</span>
+                    <span class="expand-value">{{ row.order_info.give_money }}</span>
+                </Col>
             </Row>
             <hr/>
         </div>
@@ -51,8 +55,8 @@
                 </Col>
 
                 <Col span="6">
-                <span class="expand-key">折扣：</span>
-                <span class="expand-value">{{ item.discount }}</span>
+                    <span class="expand-key">折扣：</span>
+                    <span class="expand-value">{{ item.discount }}</span>
                 </Col>
             </Row>
             <hr/>
@@ -64,6 +68,10 @@
                 <Col span="6">
                     <span class="expand-key">还款金额：</span>
                     <span class="expand-value">{{ row.pay_money }}</span>
+                </Col>
+                <Col span="6">
+                    <span class="expand-key">还款单据号：</span>
+                    <span class="expand-value">{{ row.repay_order_id }}</span>
                 </Col>
             </Row>
             <hr/>
@@ -137,6 +145,23 @@
                 </Row>
                 <hr/>
             </div>
+        </div>
+
+        <div style="font-weight: bolder;color:red">
+            <Row class="expand-row">
+                <Col span="6" v-if="row.pay_balance > 0">
+                <span class="expand-key">会员卡金额：</span>
+                <span class="expand-value">{{ row.pay_balance }}</span>
+                </Col>
+                <Col span="6" v-if="row.use_good_money > 0">
+                <span class="expand-key">产品卡金额：</span>
+                <span class="expand-value">{{ row.use_good_money }}</span>
+                </Col>
+                <Col span="6" v-if="row.pay_give_balance > 0">
+                <span class="expand-key">使用赠送金额：</span>
+                <span class="expand-value">{{ row.pay_give_balance }}</span>
+                </Col>
+            </Row>
 
         </div>
         <!--支付方式-->
@@ -158,15 +183,6 @@
                     <span class="expand-key">欠款金额：</span>
                     <span class="expand-value">{{ row.debt }}</span>
                 </Col>
-                <Col span="6" v-if="row.pay_balance > 0">
-                    <span class="expand-key">会员卡金额：</span>
-                    <span class="expand-value">{{ row.pay_balance }}</span>
-                </Col>
-                <Col span="6" v-if="row.use_good_money">
-                    <span class="expand-key">产品卡金额：</span>
-                    <span class="expand-value">{{ row.use_good_money }}</span>
-                </Col>
-
             </Row>
             <hr/>
         </div>

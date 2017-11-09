@@ -14,6 +14,10 @@
                 <Form-item label="充值金额">
                     <Input v-model="rechargeData.charge_money" placeholder="输入充值金额" style="width: 200px" @on-change = "getPayMoney"></Input>
                  </Form-item>
+
+                <Form-item label="赠送金额">
+                    <Input v-model="rechargeData.give_money" size="small" placeholder="输入赠送金额" style="width: 120px" @on-change = "getPayMoney"></Input>
+                 </Form-item>
                 <hr/>
                 <br/>
                 <Row>
@@ -107,6 +111,7 @@
                 rechargeData: {
                     add_time: "",
                     charge_money: "",
+                    give_money: "",
                     pay_cash: 0,
                     pay_card: 0,
                     pay_mobile: 0,
@@ -174,7 +179,7 @@
 
                 if(emps_sum > this.payMoney) {
                     this.$Message.error({
-                        content: '员工分配金额不能大于收入金额，请认真输入 !',
+                        content: '员工分配金额不能大于收入金额，请认真输入!',
                         duration: 5
                     })
                     return

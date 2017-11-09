@@ -7,12 +7,12 @@
 <template>
     <span>
         <Button type="ghost" @click = "showBuyItemsModel('BuyItemsData')" >购买服务</Button>
-        <Modal v-model="buyItemsModel" width="780" >
+        <Modal v-model="buyItemsModel" width="780" :styles="{top: '20px'}">
             <p slot="header" style="color:#f60;text-align:center;font-size: 18px">
                 <Icon type="cash" size="18"></Icon>
                 <span>购买服务 - {{currentUserData.user_name}} </span>
             </p>
-            <Form ref="BuyItemsData" :model="BuyItemsData" :rules="ruleValidate" :label-width="80">
+            <Form ref="BuyItemsData" :model="BuyItemsData" :rules="ruleValidate" :label-width="90">
                 <Form-item label="操作时间" prop="add_time">
                     <Date-picker type="datetime" placeholder="选择日期和时间" :options="options1"  v-model="add_time" style="width: 180px"></Date-picker>
                 </Form-item>
@@ -70,16 +70,30 @@
                     </Row>
                 </Form-item>
 
-                <Form-item label="消费总计" >
+
+                <Form-item label="项目合计" >
                     <Tag type="dot" color="green">{{ BuyItemsData.itemsMoney }} 元</Tag>
                 </Form-item>
+
                 <hr/>
                 <br/>
-
-                <Form-item label="使用余额" prop="pay_cash">
+                <Form-item label="使用余额">
                     <Input v-model="BuyItemsData.pay_balance" :disabled="currentUserData.balance == 0" @on-change = "getPayMoney" style="width: 180px"></Input>
                     &nbsp; &nbsp;
                     <Tag type="dot" color="yellow">{{currentUserData.balance}}元可用</Tag>
+                </Form-item>
+
+                <Form-item label="使用赠送余额">
+                    <Input v-model="BuyItemsData.pay_give_balance" :disabled="currentUserData.give_balance == 0" @on-change = "getPayMoney" style="width: 180px"></Input>
+                    &nbsp; &nbsp;
+                    <Tag type="dot" color="yellow">{{currentUserData.give_balance}}元可用</Tag>
+                </Form-item>
+
+                <hr/>
+                <br/>
+
+                <Form-item label="需要支付金额" >
+                    <Tag type="dot" color="green">{{ BuyItemsData.itemsMoney - BuyItemsData.pay_balance - BuyItemsData.pay_give_balance }} 元</Tag>
                 </Form-item>
 
                 <Row>
@@ -177,6 +191,7 @@
                     selectedItems: [],
                     itemsMoney: 0,
                     pay_balance: 0,
+                    pay_give_balance: 0,
                     pay_cash: 0,
                     pay_card: 0,
                     pay_mobile: 0,
@@ -253,7 +268,7 @@
             getPayMoney() {
                 this.payMoney =  Number(this.BuyItemsData.pay_cash) + Number(this.BuyItemsData.pay_card) + Number(this.BuyItemsData.pay_mobile)
                 this.payMoney = this.payMoney.toFixed(2)
-                this.debt     =  Number(this.BuyItemsData.itemsMoney) - this.payMoney - this.BuyItemsData.pay_balance
+                this.debt     =  Number(this.BuyItemsData.itemsMoney) - this.payMoney - this.BuyItemsData.pay_balance - this.BuyItemsData.pay_give_balance
                 this.debt     = this.debt.toFixed(2)
             },
 
@@ -292,6 +307,12 @@
                         //余额使用规则
                         if(Number(this.BuyItemsData.pay_balance) > Number(this.currentUserData.balance)) {
                             this.$Message.error('余额使用不正确！')
+                            return
+                        }
+
+                        //赠送余额使用规则
+                        if(Number(this.BuyItemsData.pay_give_balance) > Number(this.currentUserData.give_balance)) {
+                            this.$Message.error('赠送余额使用不对！')
                             return
                         }
 

@@ -54,10 +54,10 @@
                         title: '购买价格(元)',
                         key: 'sold_money'
                     },
-                    {
-                        title: '购买折扣',
-                        key: 'discount'
-                    },
+//                    {
+//                        title: '购买折扣',
+//                        key: 'discount'
+//                    },
                     {
                         title: '总次数',
                         key: 'times'

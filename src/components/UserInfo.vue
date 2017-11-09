@@ -31,7 +31,13 @@
             <Col span="6">
                 <div>
                     <label>余额：</label>
-                    {{ currentUserData.balance }} 元
+                    {{ currentUserData.balance }}元
+                </div>
+            </Col>
+            <Col span="6">
+                <div>
+                    <label>赠送余额：</label>
+                    {{ currentUserData.give_balance }}元
                 </div>
             </Col>
             <Col span="6">
@@ -46,12 +52,12 @@
                     {{ currentUserData.debt }} 元
                 </div>
             </Col>
-            <Col span="6">
-                <div>
-                    <label>积分：</label>
-                    {{ currentUserData.point }}
-                </div>
-            </Col>
+            <!--<Col span="6">-->
+                <!--<div>-->
+                    <!--<label>积分：</label>-->
+                    <!--{{ currentUserData.point }}-->
+                <!--</div>-->
+            <!--</Col>-->
         </Row>
         <br/>
         <Row :gutter="16">
